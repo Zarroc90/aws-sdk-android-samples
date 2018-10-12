@@ -15,7 +15,10 @@
 
 package com.amazonaws.demo.temperaturecontrol;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,9 +34,18 @@ import com.amazonaws.services.iotdata.model.GetThingShadowRequest;
 import com.amazonaws.services.iotdata.model.GetThingShadowResult;
 import com.amazonaws.services.iotdata.model.UpdateThingShadowRequest;
 import com.amazonaws.services.iotdata.model.UpdateThingShadowResult;
+import com.google.android.gms.auth.GoogleAuthException;
+import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TemperatureActivity extends Activity {
 
@@ -43,12 +55,15 @@ public class TemperatureActivity extends Activity {
 
     // Customer specific IoT endpoint
     // AWS Iot CLI describe-endpoint call returns: XXXXXXXXXX.iot.<region>.amazonaws.com
-    private static final String CUSTOMER_SPECIFIC_ENDPOINT = "CHANGE_ME";
+    private static final String CUSTOMER_SPECIFIC_ENDPOINT = "acqx6akcdcn9n-ats.iot.eu-central-1.amazonaws.com";
     // Cognito pool ID. For this app, pool needs to be unauthenticated pool with
     // AWS IoT permissions.
-    private static final String COGNITO_POOL_ID = "CHANGE_ME";
+    private static final String COGNITO_POOL_ID = "eu-central-1:4b38968f-863d-4286-a967-8dfd62fb754c";
     // Region of AWS IoT
-    private static final Regions MY_REGION = Regions.US_EAST_1;
+    private static final Regions MY_REGION = Regions.EU_CENTRAL_1;
+
+    private GoogleSignInClient mGoogleSignInClient;
+    private static final int RC_SIGN_IN = 9001;
 
     CognitoCachingCredentialsProvider credentialsProvider;
 
@@ -59,12 +74,41 @@ public class TemperatureActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         // Initialize the Amazon Cognito credentials provider
-        credentialsProvider = new CognitoCachingCredentialsProvider(
+        /*credentialsProvider = new CognitoCachingCredentialsProvider(
                 getApplicationContext(),
                 COGNITO_POOL_ID, // Identity Pool ID
                 MY_REGION // Region
-        );
+        );*/
+
+        //----------------Google Sign in---------------------------------------------------
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
+        AccountManager am = AccountManager.get(this);
+        Account[] accounts = am.getAccountsByType(GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE);
+        String token = null;
+        try {
+            token = GoogleAuthUtil.getToken(getApplicationContext(), accounts[0].name,
+                    "audience:server:client_id:121076335235-c6hhje1e9jf44kuficba2a6b6mjj06bq.apps.googleusercontent.com");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (GoogleAuthException e) {
+            e.printStackTrace();
+        }
+        Map<String, String> logins = new HashMap<String, String>();
+        logins.put("accounts.google.com", token);
+
+        //----------------Google Sign in---------------------------------------------------
+
+        credentialsProvider.setLogins(logins);
 
         iotDataClient = new AWSIotDataClient(credentialsProvider);
         String iotDataEndpoint = CUSTOMER_SPECIFIC_ENDPOINT;
@@ -233,5 +277,10 @@ public class TemperatureActivity extends Activity {
                         result.getError());
             }
         }
+    }
+
+    private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 }
