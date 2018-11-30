@@ -17,6 +17,13 @@
         android:contentDescription="refresh"
         android:onClick="getShadow" />
 
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/enableButton"
+        android:layout_alignTop="@+id/setpoint" />
+
     <ToggleButton
         android:id="@+id/enableButton"
         android:layout_width="wrap_content"
@@ -83,5 +90,14 @@
         android:layout_alignParentLeft="true"
         android:text="Exterior Temp"
         android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <ToggleButton
+        android:id="@+id/plugButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/sign_in_button"
+        android:layout_marginBottom="217dp"
+        android:text="ToggleButton" />
 
 </RelativeLayout>

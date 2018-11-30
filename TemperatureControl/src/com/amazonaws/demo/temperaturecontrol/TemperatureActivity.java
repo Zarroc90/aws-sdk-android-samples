@@ -21,8 +21,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -37,9 +40,13 @@ import com.amazonaws.services.iotdata.model.UpdateThingShadowResult;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -47,7 +54,11 @@ import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TemperatureActivity extends Activity {
+import static android.content.ContentValues.TAG;
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+
+public class TemperatureActivity extends Activity implements View.OnClickListener {
 
     private static final String LOG_TAG = TemperatureActivity.class.getCanonicalName();
 
@@ -68,6 +79,27 @@ public class TemperatureActivity extends Activity {
     CognitoCachingCredentialsProvider credentialsProvider;
 
     AWSIotDataClient iotDataClient;
+    ToggleButton toggle;
+    Boolean plugStatus;
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+    }
+
+    @Override
+    public void onLocalVoiceInteractionStarted() {
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +107,13 @@ public class TemperatureActivity extends Activity {
         setContentView(R.layout.activity_main);
 
 
+        toggle = (ToggleButton)findViewById(R.id.plugButton);
+        //Register Sign in Button Listener
+        findViewById(R.id.sign_in_button).setOnClickListener(this);
+        findViewById(R.id.plugButton).setOnClickListener(this);
 
-        // Initialize the Amazon Cognito credentials provider
+
+         //Initialize the Amazon Cognito credentials provider
         /*credentialsProvider = new CognitoCachingCredentialsProvider(
                 getApplicationContext(),
                 COGNITO_POOL_ID, // Identity Pool ID
@@ -85,14 +122,20 @@ public class TemperatureActivity extends Activity {
 
         //----------------Google Sign in---------------------------------------------------
 
+        String token = null;
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .build();
+
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
-        AccountManager am = AccountManager.get(this);
+
+
+        //GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
+       /* AccountManager am = AccountManager.get(this);
         Account[] accounts = am.getAccountsByType(GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE);
         String token = null;
         try {
@@ -102,13 +145,13 @@ public class TemperatureActivity extends Activity {
             e.printStackTrace();
         } catch (GoogleAuthException e) {
             e.printStackTrace();
-        }
-        Map<String, String> logins = new HashMap<String, String>();
-        logins.put("accounts.google.com", token);
+        }*/
+        //Map<String, String> logins = new HashMap<String, String>();
+        //logins.put("accounts.google.com", token);
 
         //----------------Google Sign in---------------------------------------------------
 
-        credentialsProvider.setLogins(logins);
+        /*credentialsProvider.setLogins(logins);
 
         iotDataClient = new AWSIotDataClient(credentialsProvider);
         String iotDataEndpoint = CUSTOMER_SPECIFIC_ENDPOINT;
@@ -119,8 +162,10 @@ public class TemperatureActivity extends Activity {
         np.setMaxValue(80);
         np.setWrapSelectorWheel(false);
 
-        getShadows();
+        getShadows();*/
     }
+
+
 
     public void temperatureStatusUpdated(String temperatureStatusState) {
         Gson gson = new Gson();
@@ -158,6 +203,18 @@ public class TemperatureActivity extends Activity {
         tb.setChecked(tc.state.desired.enabled);
     }
 
+    public void PLugUpdated (String plugstatus){
+
+        if(plugstatus.contains("on")){
+            plugStatus = TRUE;
+            toggle.setTextOn("ON");
+        }else if (plugstatus.contains("off")){
+            plugStatus = FALSE;
+            toggle.setTextOff("OFF");
+        }
+        toggle.setChecked(plugStatus);
+    }
+
     public void getShadow(View view) {
         getShadows();
     }
@@ -168,6 +225,10 @@ public class TemperatureActivity extends Activity {
 
         GetShadowTask getControlShadowTask = new GetShadowTask("TemperatureControl");
         getControlShadowTask.execute();
+
+        GetShadowTask getPlugShadowTask = new GetShadowTask("IP_44_Plug");
+        getPlugShadowTask.execute();
+        Log.i(LOG_TAG,"This was the IP44 PLug");
     }
 
     public void enableDisableClicked(View view) {
@@ -194,6 +255,39 @@ public class TemperatureActivity extends Activity {
         updateShadowTask.setState(newState);
         updateShadowTask.execute();
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.sign_in_button:
+                signIn();
+                break;
+            case R.id.plugButton:
+                plugAction();
+                break;
+            // ...
+        }
+    }
+
+    private void plugAction() {
+
+        String newState;
+        if(plugStatus){
+            newState= ("{\"state\":{\"desired\":{\"status\":\"on\"}}}");
+        }else{
+            newState= ("{\"state\":{\"desired\":{\"status\":\"off\"}}}");
+        }
+
+        UpdateShadowTask updateShadowTask = new UpdateShadowTask();
+        updateShadowTask.setThingName("IP_44_Plug");
+        Log.i(LOG_TAG, newState);
+        updateShadowTask.setState(newState);
+        updateShadowTask.execute();
+
+
+    }
+
+
 
     private class GetShadowTask extends AsyncTask<Void, Void, AsyncTaskResult<String>> {
 
@@ -227,6 +321,8 @@ public class TemperatureActivity extends Activity {
                     temperatureControlUpdated(result.getResult());
                 } else if ("TemperatureStatus".equals(thingName)) {
                     temperatureStatusUpdated(result.getResult());
+                }else if ("IP_44_Plug".equals(thingName)) {
+                    PLugUpdated(result.getResult());
                 }
             } else {
                 Log.e(GetShadowTask.class.getCanonicalName(), "getShadowTask", result.getError());
@@ -282,5 +378,54 @@ public class TemperatureActivity extends Activity {
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void handleSignInResult(@NonNull Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            String photourl = account.getPhotoUrl().toString();
+            String token = account.getIdToken();
+
+            final Map<String, String> logins = new HashMap<String, String>();
+            logins.put("accounts.google.com", token);
+
+
+        credentialsProvider = new CognitoCachingCredentialsProvider(
+                getApplicationContext(),
+                COGNITO_POOL_ID, // Identity Pool ID
+                MY_REGION // Region
+        );
+
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    credentialsProvider.setLogins(logins);
+                    credentialsProvider.refresh();
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    iotDataClient = new AWSIotDataClient(credentialsProvider);
+                    String iotDataEndpoint = CUSTOMER_SPECIFIC_ENDPOINT;
+                    iotDataClient.setEndpoint(iotDataEndpoint);
+
+                    NumberPicker np = (NumberPicker) findViewById(R.id.setpoint);
+                    np.setMinValue(60);
+                    np.setMaxValue(80);
+                    np.setWrapSelectorWheel(false);
+
+                    getShadows();
+                }
+            }.execute();
+
+        } catch (ApiException e) {
+            Log.w(TAG, "handleSignInResult:error", e);
+
+        }
+
+
+
+
     }
 }

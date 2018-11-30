@@ -21,25 +21,23 @@ dependencies {
     implementation 'com.amazonaws:aws-android-sdk-iot:2.7.5'
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
     implementation 'com.google.android.gms:play-services-identity:16.0.0'
-
     //implementation 'com.google.android.gms:play-services:12.0.1'
 }
 
 android {
+    signingConfigs {
+    }
     buildToolsVersion "28.0.2"
     compileSdkVersion 24
-
     defaultConfig {
         versionCode 1
         versionName "1.0.0"
         minSdkVersion 16
         targetSdkVersion 24
     }
-
     lintOptions {
         abortOnError false
     }
-
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -49,6 +47,10 @@ android {
             renderscript.srcDirs = ['src']
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
+        }
+    }
+    buildTypes {
+        debug {
         }
     }
 }

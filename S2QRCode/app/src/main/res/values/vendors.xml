@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="h0x0000" type="string">Z-Wave</item>
+    <item name="h0x0001" type="string">ACT - Advanced Control Technologies</item>
+    <item name="h0x0002" type="string">Danfoss</item>
+    <item name="h0x0003" type="string">Wr@p</item>
+    <item name="h0x0004" type="string">Exhausto</item>
+    <item name="h0x0005" type="string">Intermatic</item>
+    <item name="h0x0006" type="string">Intel</item>
+    <item name="h0x0007" type="string">Vimar CRS</item>
+    <item name="h0x0008" type="string">Wayne Dalton</item>
+    <item name="h0x0009" type="string">Sylvania</item>
+    <item name="h0x000A" type="string">Techniku</item>
+    <item name="h0x000B" type="string">CasaWorks</item>
+    <item name="h0x000C" type="string">HomeSeer Technologies</item>
+    <item name="h0x000D" type="string">Home Automated Living</item>
+    <item name="h0x000E" type="string">Mohito Networks</item>
+    <item name="h0x000F" type="string">ConvergeX Ltd.</item>
+    <item name="h0x0010" type="string">Residential Control Systems, Inc. (RCS)</item>
+    <item name="h0x0011" type="string">iCOM Technology b.v.</item>
+    <item name="h0x0012" type="string">Tell It Online</item>
+    <item name="h0x0013" type="string">Internet Dom</item>
+    <item name="h0x0014" type="string">Cyberhouse</item>
+    <item name="h0x0015" type="string">Lexel</item>
+    <item name="h0x0016" type="string">PowerLynx</item>
+    <item name="h0x0017" type="string">HiTech Automation</item>
+    <item name="h0x0018" type="string">Balboa Instruments</item>
+    <item name="h0x0019" type="string">ControlThink LC</item>
+    <item name="h0x001A" type="string">Eaton</item>
+    <item name="h0x001B" type="string">ELK Products, Inc.</item>
+    <item name="h0x001C" type="string">IntelliCon</item>
+    <item name="h0x001D" type="string">Leviton</item>
+    <item name="h0x001E" type="string">Express Controls</item>
+    <item name="h0x001F" type="string">Scientia Technologies, Inc.</item>
+    <item name="h0x0020" type="string">Universal Electronics Inc.</item>
+    <item name="h0x0021" type="string">Zykronix</item>
+    <item name="h0x0022" type="string">A-1 Components</item>
+    <item name="h0x0023" type="string">Boca Devices</item>
+    <item name="h0x0024" type="string">Flue Sentinel</item>
+    <item name="h0x0025" type="string">Loudwater Technologies, LLC</item>
+    <item name="h0x0026" type="string">BuLogics</item>
+    <item name="h0x0027" type="string">Meedio, LLC</item>
+    <item name="h0x0028" type="string">2B Electronics</item>
+    <item name="h0x0029" type="string">Asia Heading</item>
+    <item name="h0x002A" type="string">3e Technologies</item>
+    <item name="h0x002B" type="string">Atech</item>
+    <item name="h0x002C" type="string">Flex Automation</item>
+    <item name="h0x002D" type="string">Broadband Energy Networks Inc.</item>
+    <item name="h0x002E" type="string">Carrier</item>
+    <item name="h0x002F" type="string">Color Kinetics Incorporated</item>
+    <item name="h0x0030" type="string">Cytech Technology Pre Ltd.</item>
+    <item name="h0x0031" type="string">Destiny Networks</item>
+    <item name="h0x0032" type="string">Digital 5, Inc.</item>
+    <item name="h0x0033" type="string">Electronic Solutions</item>
+    <item name="h0x0034" type="string">El-Gev Electronics LTD</item>
+    <item name="h0x0035" type="string">Embedit A/S</item>
+    <item name="h0x0036" type="string">Exceptional Innovations</item>
+    <item name="h0x0037" type="string">Foard Systems</item>
+    <item name="h0x0038" type="string">Home Director</item>
+    <item name="h0x0039" type="string">Honeywell</item>
+    <item name="h0x003A" type="string">Inlon Srl</item>
+    <item name="h0x003B" type="string">Allegion</item>
+    <item name="h0x003C" type="string">Lifestyle Networks</item>
+    <item name="h0x003D" type="string">Marmitek BV</item>
+    <item name="h0x003E" type="string">Martec Access Products</item>
+    <item name="h0x003F" type="string">Motorola</item>
+    <item name="h0x0040" type="string">Novar Electrical Devices and Systems (EDS)</item>
+    <item name="h0x0041" type="string">OpenPeak Inc.</item>
+    <item name="h0x0042" type="string">Pragmatic Consulting Inc.</item>
+    <item name="h0x0043" type="string">Senmatic A/S</item>
+    <item name="h0x0044" type="string">Sequoia Technology LTD</item>
+    <item name="h0x0045" type="string">Sine Wireless</item>
+    <item name="h0x0046" type="string">Smart Products, Inc.</item>
+    <item name="h0x0047" type="string">Somfy</item>
+    <item name="h0x0048" type="string">Telsey</item>
+    <item name="h0x0049" type="string">Twisthink</item>
+    <item name="h0x004A" type="string">Visualize</item>
+    <item name="h0x004B" type="string">Watt Stopper</item>
+    <item name="h0x004C" type="string">Woodward Labs</item>
+    <item name="h0x004D" type="string">Xanboo</item>
+    <item name="h0x004E" type="string">Zdata, LLC.</item>
+    <item name="h0x004F" type="string">Flex Automation</item>
+    <item name="h0x0050" type="string">Homepro</item>
+    <item name="h0x0051" type="string">Lagotek Corporation</item>
+    <item name="h0x0052" type="string">Bit7 Inc.</item>
+    <item name="h0x0053" type="string">Viewsonic</item>
+    <item name="h0x0054" type="string">Superna</item>
+    <item name="h0x0055" type="string">Tridium</item>
+    <item name="h0x0056" type="string">Impact Technologies and Products</item>
+    <item name="h0x0057" type="string">Whirlpool</item>
+    <item name="h0x0058" type="string">Vitelec</item>
+    <item name="h0x0059" type="string">Secure Meters (UK) Ltd</item>
+    <item name="h0x005A" type="string">American Grid, Inc.</item>
+    <item name="h0x005B" type="string">Home Automation Inc.</item>
+    <item name="h0x005C" type="string">Terra Optima B.V. (tidligere Primair Services)</item>
+    <item name="h0x005D" type="string">Pulse Technologies (Aspalis)</item>
+    <item name="h0x005E" type="string">ViewSonic Corporation</item>
+    <item name="h0x005F" type="string">IQ-Group</item>
+    <item name="h0x0060" type="string">Everspring</item>
+    <item name="h0x0061" type="string">Impact Technologies BV</item>
+    <item name="h0x0062" type="string">LVI Produkter AB</item>
+    <item name="h0x0063" type="string">Jasco Products</item>
+    <item name="h0x0064" type="string">Reitz-Group.de</item>
+    <item name="h0x0065" type="string">RS Scene Automation</item>
+    <item name="h0x0066" type="string">TrickleStar</item>
+    <item name="h0x0067" type="string">CyberTAN Technology, Inc.</item>
+    <item name="h0x0068" type="string">Good Way Technology Co., Ltd</item>
+    <item name="h0x0069" type="string">Seluxit</item>
+    <item name="h0x006A" type="string">Kellendonk Elektronik</item>
+    <item name="h0x006B" type="string">Tricklestar Ltd. (former Empower Controls Ltd.)</item>
+    <item name="h0x006C" type="string">Ingersoll Rand (Schlage)</item>
+    <item name="h0x006D" type="string">Nefit</item>
+    <item name="h0x006E" type="string">Manodo / KTC</item>
+    <item name="h0x006F" type="string">Erone</item>
+    <item name="h0x0070" type="string">Homemanageables, Inc.</item>
+    <item name="h0x0071" type="string">LS Control</item>
+    <item name="h0x0072" type="string">Interactive Electronics Systems (IES)</item>
+    <item name="h0x0073" type="string">Hawking Technologies Inc.</item>
+    <item name="h0x0074" type="string">PowerLinx</item>
+    <item name="h0x0075" type="string">NextEnergy</item>
+    <item name="h0x0076" type="string">Goggin Research</item>
+    <item name="h0x0077" type="string">INNOVUS</item>
+    <item name="h0x0078" type="string">anyCOMM Corporation</item>
+    <item name="h0x0079" type="string">Cooper Lighting</item>
+    <item name="h0x007A" type="string">Merten</item>
+    <item name="h0x007C" type="string">Hunter Douglas</item>
+    <item name="h0x007D" type="string">CoolGuard</item>
+    <item name="h0x007E" type="string">Monster Cable</item>
+    <item name="h0x007F" type="string">Logitech</item>
+    <item name="h0x0080" type="string">Vero Duco</item>
+    <item name="h0x0081" type="string">SIEGENIA-AUBI KG</item>
+    <item name="h0x0082" type="string">Cisco Consumer Business Group</item>
+    <item name="h0x0083" type="string">MTC Maintronic Germany</item>
+    <item name="h0x0084" type="string">FortrezZ LLC</item>
+    <item name="h0x0085" type="string">Fakro</item>
+    <item name="h0x0086" type="string">AEON Labs</item>
+    <item name="h0x0087" type="string">Eka Systems</item>
+    <item name="h0x0088" type="string">Airvent SAM S.p.A.</item>
+    <item name="h0x0089" type="string">Team Precision PCL</item>
+    <item name="h0x008A" type="string">BeNext</item>
+    <item name="h0x008B" type="string">Trane Corporation</item>
+    <item name="h0x008C" type="string">Vera Control</item>
+    <item name="h0x008D" type="string">Modstrøm</item>
+    <item name="h0x008E" type="string">Raritan</item>
+    <item name="h0x008F" type="string">MB Turn Key Design</item>
+    <item name="h0x0090" type="string">Spectrum Brands</item>
+    <item name="h0x0091" type="string">Kamstrup A/S</item>
+    <item name="h0x0092" type="string">Martin Renz GmbH</item>
+    <item name="h0x0093" type="string">San Shih Electrical Enterprise Co., Ltd.</item>
+    <item name="h0x0094" type="string">Alarm.com</item>
+    <item name="h0x0095" type="string">Qees</item>
+    <item name="h0x0096" type="string">NorthQ</item>
+    <item name="h0x0097" type="string">Wintop</item>
+    <item name="h0x0098" type="string">Radio Thermostat Company of America (RTC)</item>
+    <item name="h0x0099" type="string">GreenWave Reality Inc.</item>
+    <item name="h0x009A" type="string">Home Automation Europe</item>
+    <item name="h0x009B" type="string">2gig Technologies Inc.</item>
+    <item name="h0x009C" type="string">Cameo Communications Inc.</item>
+    <item name="h0x009D" type="string">Coventive Technologies Inc.</item>
+    <item name="h0x009E" type="string">Adventure Interactive</item>
+    <item name="h0x009F" type="string">Exigent Sensors</item>
+    <item name="h0x0100" type="string">Insignia</item>
+    <item name="h0x0101" type="string">ADOX, Inc.</item>
+    <item name="h0x0102" type="string">SMK Manufacturing Inc.</item>
+    <item name="h0x0103" type="string">Diehl AKO</item>
+    <item name="h0x0104" type="string">Panasonic Electric Works Co., Ltd.</item>
+    <item name="h0x0105" type="string">Sumitomo</item>
+    <item name="h0x0106" type="string">Icontrol Networks</item>
+    <item name="h0x0107" type="string">MegaChips</item>
+    <item name="h0x0108" type="string">D-Link</item>
+    <item name="h0x0109" type="string">Vision Security</item>
+    <item name="h0x010A" type="string">VDA</item>
+    <item name="h0x010B" type="string">Sharp</item>
+    <item name="h0x010C" type="string">There Corporation</item>
+    <item name="h0x010D" type="string">e-Home AUTOMATION</item>
+    <item name="h0x010E" type="string">Poly-control</item>
+    <item name="h0x010F" type="string">Fibargroup</item>
+    <item name="h0x0110" type="string">Frostdale</item>
+    <item name="h0x0111" type="string">Tronico Technology Co. Ltd.</item>
+    <item name="h0x0112" type="string">MITSUMI</item>
+    <item name="h0x0113" type="string">Evolve</item>
+    <item name="h0x0114" type="string">Kichler</item>
+    <item name="h0x0115" type="string">Z-Wave.Me</item>
+    <item name="h0x0116" type="string">Chromagic Technologies Corporation</item>
+    <item name="h0x0117" type="string">Abilia</item>
+    <item name="h0x0118" type="string">TKB Home</item>
+    <item name="h0x0119" type="string">Omnima Limited</item>
+    <item name="h0x011A" type="string">Wenzhou MTLC Electric Appliances Co.,Ltd.</item>
+    <item name="h0x011B" type="string">Connected Object</item>
+    <item name="h0x011C" type="string">TKH Group / Eminent</item>
+    <item name="h0x011D" type="string">Foxconn</item>
+    <item name="h0x011E" type="string">Secure Wireless</item>
+    <item name="h0x011F" type="string">Ingersoll Rand (was Ecolink)</item>
+    <item name="h0x0120" type="string">Zonoff</item>
+    <item name="h0x0121" type="string">Napco Security Technologies, Inc.</item>
+    <item name="h0x0122" type="string">MSK - Miyakawa Seisakusho</item>
+    <item name="h0x0123" type="string">IWATSU</item>
+    <item name="h0x0124" type="string">Square Connect</item>
+    <item name="h0x0125" type="string">Motion Control Systems</item>
+    <item name="h0x0126" type="string">Alertme</item>
+    <item name="h0x0127" type="string">DMP (Digital Monitoring Products)</item>
+    <item name="h0x0128" type="string">Prodrive Technologies</item>
+    <item name="h0x0129" type="string">ASSA ABLOY</item>
+    <item name="h0x012A" type="string">Qolsys</item>
+    <item name="h0x012B" type="string">Infusion Development</item>
+    <item name="h0x012C" type="string">SANAV</item>
+    <item name="h0x012D" type="string">Wilshine Holding Co., Ltd</item>
+    <item name="h0x012E" type="string">Wuhan NWD Technology Co., Ltd.</item>
+    <item name="h0x012F" type="string">Tecom Co., Ltd.</item>
+    <item name="h0x0130" type="string">Quby</item>
+    <item name="h0x0131" type="string">Zipato</item>
+    <item name="h0x0132" type="string">DynaQuip Controls</item>
+    <item name="h0x0133" type="string">Netgear</item>
+    <item name="h0x0134" type="string">AT&amp;T</item>
+    <item name="h0x0135" type="string">ZyXEL</item>
+    <item name="h0x0136" type="string">Systech Corporation</item>
+    <item name="h0x0137" type="string">FollowGood Technology Company Ltd.</item>
+    <item name="h0x0138" type="string">BRK Brands, Inc.</item>
+    <item name="h0x0139" type="string">KlickH Pvt Ltd.</item>
+    <item name="h0x013A" type="string">Living Style Enterprises, Ltd.</item>
+    <item name="h0x013B" type="string">AstraLink</item>
+    <item name="h0x013C" type="string">Philio Technology Corp</item>
+    <item name="h0x013D" type="string">Pella</item>
+    <item name="h0x013E" type="string">Holtec Electronics BV</item>
+    <item name="h0x013F" type="string">Defacontrols BV</item>
+    <item name="h0x0140" type="string">Computime</item>
+    <item name="h0x0141" type="string">Innoband Technologies, Inc</item>
+    <item name="h0x0142" type="string">Rademacher Geräte-Elektronik GmbH &amp; Co. KG</item>
+    <item name="h0x0143" type="string">myStrom</item>
+    <item name="h0x0144" type="string">Applied Micro Electronics "AME" BV</item>
+    <item name="h0x0145" type="string">Buffalo Inc.</item>
+    <item name="h0x0146" type="string">Axesstel Inc</item>
+    <item name="h0x0147" type="string">R-import Ltd.</item>
+    <item name="h0x0148" type="string">Eurotronics</item>
+    <item name="h0x0149" type="string">wiDom</item>
+    <item name="h0x014A" type="string">Ecolink</item>
+    <item name="h0x014B" type="string">BFT S.p.A.</item>
+    <item name="h0x014C" type="string">OnSite Pro</item>
+    <item name="h0x014D" type="string">Enblink Co. Ltd</item>
+    <item name="h0x014E" type="string">Check-It Solutions Inc.</item>
+    <item name="h0x014F" type="string">Nortek Security &amp; Control LLC </item>
+    <item name="h0x0150" type="string">SmartThings, Inc.</item>
+    <item name="h0x0151" type="string">Sercomm Corp</item>
+    <item name="h0x0152" type="string">UFairy G.R. Tech</item>
+    <item name="h0x0153" type="string">Revolv Inc</item>
+    <item name="h0x0154" type="string">Popp &amp; Co</item>
+    <item name="h0x0155" type="string">Avadesign Technology Co., Ltd.</item>
+    <item name="h0x0156" type="string">Vivint</item>
+    <item name="h0x0157" type="string">EcoNet Controls</item>
+    <item name="h0x0158" type="string">GuangZhou Zeewave Information Technology Co., Ltd.</item>
+    <item name="h0x0159" type="string">Goap</item>
+    <item name="h0x015A" type="string">Jin Tao Bao</item>
+    <item name="h0x015B" type="string">LG Electronics</item>
+    <item name="h0x015C" type="string">Bosch Security Systems, Inc</item>
+    <item name="h0x015D" type="string">Willis Electric Co., Ltd.</item>
+    <item name="h0x015E" type="string">Locstar Technology Co., Ltd</item>
+    <item name="h0x015F" type="string">McoHome Technology Co., Ltd</item>
+    <item name="h0x0160" type="string">Essence Security</item>
+    <item name="h0x0161" type="string">Promixis, LLC</item>
+    <item name="h0x0162" type="string">HomeScenario</item>
+    <item name="h0x0163" type="string">Queenlock Ind. Co., Ltd.</item>
+    <item name="h0x0164" type="string">JSW Pacific Corporation</item>
+    <item name="h0x0165" type="string">ID-RF</item>
+    <item name="h0x0166" type="string">CBCC Domotique SAS</item>
+    <item name="h0x0167" type="string">SecureNet Technologies</item>
+    <item name="h0x0168" type="string">STRATTEC Security Corporation</item>
+    <item name="h0x0169" type="string">Bönig und Kallenbach oHG</item>
+    <item name="h0x016A" type="string">Fantem</item>
+    <item name="h0x016B" type="string">Echostar</item>
+    <item name="h0x016C" type="string">Advanced Optronic Devices Co.,Ltd</item>
+    <item name="h0x016D" type="string">Guangzhou Ruixiang M&amp;E Co., Ltd</item>
+    <item name="h0x016E" type="string">Nanjing Easthouse Electrical Co., Ltd.</item>
+    <item name="h0x016F" type="string">Zhejiang Jiuxing Electric Co Ltd</item>
+    <item name="h0x0170" type="string">Powerhouse Dynamics</item>
+    <item name="h0x0171" type="string">WeBeHome AB</item>
+    <item name="h0x0172" type="string">PassivSystems Limited</item>
+    <item name="h0x0173" type="string">Leak Intelligence, LLC</item>
+    <item name="h0x0174" type="string">Kopera Development Inc.</item>
+    <item name="h0x0175" type="string">Devolo</item>
+    <item name="h0x0176" type="string">Telldus Technologies AB</item>
+    <item name="h0x0177" type="string">Domino sistemi d.o.o.</item>
+    <item name="h0x0178" type="string">Nexia Home Intelligence</item>
+    <item name="h0x0179" type="string">ConnectHome</item>
+    <item name="h0x017A" type="string">Liveguard Ltd.</item>
+    <item name="h0x017B" type="string">Vs-Safety AS</item>
+    <item name="h0x017C" type="string">EbV</item>
+    <item name="h0x017D" type="string">DRACOR Inc.</item>
+    <item name="h0x017E" type="string">Telular</item>
+    <item name="h0x017F" type="string">Wink Inc.</item>
+    <item name="h0x0180" type="string">Huapin Information Technology Co.,Ltd</item>
+    <item name="h0x0181" type="string">Holion Electronic Engineering Co., Ltd</item>
+    <item name="h0x0182" type="string">Securifi Ltd.</item>
+    <item name="h0x0183" type="string">Universe Future</item>
+    <item name="h0x0184" type="string">Dragon Tech Industrial, Ltd.</item>
+    <item name="h0x0185" type="string">Ningbo Sentek Electronics Co., Ltd</item>
+    <item name="h0x0186" type="string">Team Digital Limited</item>
+    <item name="h0x0187" type="string">LEVION Technologies GmbH</item>
+    <item name="h0x0188" type="string">Vipa-Star</item>
+    <item name="h0x0189" type="string">Ness Corporation Pty Ltd</item>
+    <item name="h0x018A" type="string">Globalchina-Tech</item>
+    <item name="h0x018B" type="string">Grib</item>
+    <item name="h0x018C" type="string">Dawon DNS</item>
+    <item name="h0x018D" type="string">Flextronics</item>
+    <item name="h0x018E" type="string">Climax Technology, Ltd.</item>
+    <item name="h0x018F" type="string">Focal Point Limited</item>
+    <item name="h0x0190" type="string">Building 36 Technologies</item>
+    <item name="h0x0191" type="string">Swann Communications Pty Ltd</item>
+    <item name="h0x0192" type="string">m2m Solution</item>
+    <item name="h0x0193" type="string">Universal Devices, Inc</item>
+    <item name="h0x0194" type="string">Clare Controls</item>
+    <item name="h0x0195" type="string">M2M Solution</item>
+    <item name="h0x0196" type="string">Bellatrix Systems, Inc.</item>
+    <item name="h0x0197" type="string">RPE Ajax LLC (dbs Secur Ltd)</item>
+    <item name="h0x0198" type="string">Venstar Inc.</item>
+    <item name="h0x0199" type="string">Wireless Maingate AB</item>
+    <item name="h0x019A" type="string">Sensative AB</item>
+    <item name="h0x019B" type="string">ThermoFloor</item>
+    <item name="h0x019C" type="string">Amdocs</item>
+    <item name="h0x019D" type="string">MOBILUS MOTOR Spółka z o.o. </item>
+    <item name="h0x019E" type="string">iEXERGY GmbH</item>
+    <item name="h0x019F" type="string">Webee Life</item>
+    <item name="h0x0200" type="string">Cloud Media</item>
+    <item name="h0x0201" type="string">Samsung Electronics Co., Ltd.</item>
+    <item name="h0x0202" type="string">Monoprice</item>
+    <item name="h0x0203" type="string">Newland Communication Science Technology Co., Ltd.</item>
+    <item name="h0x0204" type="string">Beijing Sino-American Boyi Software Development Co., Ltd</item>
+    <item name="h0x0205" type="string">Shanghai Longchuang Eco-energy Systems Co., Ltd</item>
+    <item name="h0x0207" type="string">Forest Group Nederland B.V</item>
+    <item name="h0x0208" type="string">HANK Electronics Ltd</item>
+    <item name="h0x0209" type="string">UTC Fire and Security Americas Corp</item>
+    <item name="h0x020A" type="string">Decoris Intelligent System Limited</item>
+    <item name="h0x020B" type="string">Embedded System Design Limited</item>
+    <item name="h0x020C" type="string">Dongguan Zhou Da Electronics Co.,Ltd</item>
+    <item name="h0x020D" type="string">Novateqni HK Ltd</item>
+    <item name="h0x020E" type="string">Domitech Products, LLC</item>
+    <item name="h0x020F" type="string">Herald Datanetics Limited</item>
+    <item name="h0x0210" type="string">Light Engine Limited</item>
+    <item name="h0x0211" type="string">Shenzhen Liao Wang Tong Da Technology Ltd</item>
+    <item name="h0x0212" type="string">iRevo</item>
+    <item name="h0x0213" type="string">BMS Evler LTD</item>
+    <item name="h0x0214" type="string">Kaipule Technology Co., Ltd.</item>
+    <item name="h0x0215" type="string">Shangdong Smart Life Data System Co.,Ltd</item>
+    <item name="h0x0216" type="string">RET Nanjing Intelligence System CO.,Ltd</item>
+    <item name="h0x0217" type="string">Strattec Advanced Logic,LLC</item>
+    <item name="h0x0218" type="string">iAutomade Pte Ltd</item>
+    <item name="h0x0219" type="string">Enwox Technologies s.r.o.</item>
+    <item name="h0x021A" type="string">SHENZHEN AOYA INDUSTRY CO. LTD</item>
+    <item name="h0x021B" type="string">ST&amp;T Electric Corporation</item>
+    <item name="h0x021C" type="string">Shenzhen iSurpass Technology Co. ,Ltd</item>
+    <item name="h0x021D" type="string">Shenzhen Kaadas Intelligent Technology Co., Ltd</item>
+    <item name="h0x021E" type="string">Red Bee Co. Ltd</item>
+    <item name="h0x021F" type="string">Elexa Consumer Products Inc.</item>
+    <item name="h0x0221" type="string">HOSEOTELNET</item>
+    <item name="h0x0222" type="string">MCT CO., LTD</item>
+    <item name="h0x0223" type="string">DTV Research Unipessoal, Lda</item>
+    <item name="h0x0224" type="string">LifeShield, LLC</item>
+    <item name="h0x0228" type="string">DigitalZone</item>
+    <item name="h0x022A" type="string">TIMEVALVE, Inc.</item>
+    <item name="h0x022B" type="string">GKB Security Corporation</item>
+    <item name="h0x022C" type="string">Remote Solution</item>
+    <item name="h0x022D" type="string">Mercury Corporation</item>
+    <item name="h0x022E" type="string">Samsung SDS</item>
+    <item name="h0x022F" type="string">WRT Intelligent Technology CO., LTD.</item>
+    <item name="h0x0230" type="string">Alphonsus Tech</item>
+    <item name="h0x0231" type="string">ASITEQ</item>
+    <item name="h0x0232" type="string">MODACOM CO., LTD.</item>
+    <item name="h0x0233" type="string">eZEX Corporation</item>
+    <item name="h0x0234" type="string">Logic Group</item>
+    <item name="h0x0235" type="string">TAEWON Lighting Co., Ltd.</item>
+    <item name="h0x0236" type="string">Bandi Comm Tech Inc.</item>
+    <item name="h0x0237" type="string">Vestel Elektronik Ticaret ve Sanayi A.S. </item>
+    <item name="h0x0238" type="string">Milanity, Inc.</item>
+    <item name="h0x0239" type="string">Stelpro</item>
+    <item name="h0x023A" type="string">KUMHO ELECTRIC, INC</item>
+    <item name="h0x023B" type="string">ROC-Connect, Inc.</item>
+    <item name="h0x023C" type="string">SafeTech Products</item>
+    <item name="h0x023D" type="string">Honest Technology Co., Ltd.</item>
+    <item name="h0x023E" type="string">Shanghai Dorlink Intelligent Technologies Co.,Ltd</item>
+    <item name="h0x023F" type="string">Control4 Corporation</item>
+    <item name="h0x0240" type="string">Technicolor</item>
+    <item name="h0x0241" type="string">NEEO AG</item>
+    <item name="h0x0242" type="string">Winytechnology</item>
+    <item name="h0x0243" type="string">casenio AG</item>
+    <item name="h0x0244" type="string">Athom BV</item>
+    <item name="h0x0245" type="string">permundo GmbH</item>
+    <item name="h0x0246" type="string">CentraLite Systems, Inc</item>
+    <item name="h0x0247" type="string">EASY SAVER Co., Inc</item>
+    <item name="h0x0248" type="string">neusta next GmbH &amp; Co. KG</item>
+    <item name="h0x024A" type="string">BTSTAR(HK) TECHNOLOGY COMPANY LIMITED</item>
+    <item name="h0x024B" type="string">Huawei Technologies Co., Ltd.</item>
+    <item name="h0x024C" type="string">Hankook Gas Kiki CO.,LTD. </item>
+    <item name="h0x024D" type="string">Z-works Inc.</item>
+    <item name="h0x024E" type="string">zConnect</item>
+    <item name="h0x024F" type="string">Smartly AS</item>
+    <item name="h0x0250" type="string">Shenzhen Tripath Digital Audio Equipment Co.,Ltd</item>
+    <item name="h0x0251" type="string">Beijing Universal Energy Huaxia Technology Co.,Ltd</item>
+    <item name="h0x0252" type="string">North China University of Technology</item>
+    <item name="h0x0253" type="string">iungo.nl B.V.</item>
+    <item name="h0x0255" type="string">Remote Technologies Incorporated</item>
+    <item name="h0x0256" type="string">Inkel Corp.</item>
+    <item name="h0x0257" type="string">PARATECH</item>
+    <item name="h0x0258" type="string">Shenzhen Neo Electronics Co., Ltd</item>
+    <item name="h0x0259" type="string">Starkoff</item>
+    <item name="h0x025A" type="string">GES</item>
+    <item name="h0x025B" type="string">AdTrustMedia LLC  dba: eZLO</item>
+    <item name="h0x025C" type="string">Hauppauge</item>
+    <item name="h0x025D" type="string">Avadesign Technology Co., Contec intelligent housing</item>
+    <item name="h0x025E" type="string">LUXEASY technology company LTD.</item>
+    <item name="h0x025F" type="string">Huawei Device Co., Ltd. </item>
+    <item name="h0x0260" type="string">Shenzhen Heiman Technology Co., Ltd</item>
+    <item name="h0x0261" type="string">KOOL KONCEPTS</item>
+    <item name="h0x0262" type="string">Taiwan Fu Hsing Industrial Co., Ltd.</item>
+    <item name="h0x0263" type="string">Viva Labs AS</item>
+    <item name="h0x0264" type="string">Taiwan iCATCH Inc.</item>
+    <item name="h0x0265" type="string">StarVedia</item>
+    <item name="h0x0266" type="string">Siterwell Technology HK Co., LTD </item>
+    <item name="h0x0267" type="string">SimonTech S.L.U</item>
+    <item name="h0x0268" type="string">Nexa Trading AB</item>
+    <item name="h0x0269" type="string">WOOREE Lighting Co.,Ltd.</item>
+    <item name="h0x026A" type="string">SmartAll Inc.</item>
+    <item name="h0x026B" type="string">Ei Electronics </item>
+    <item name="h0x026C" type="string">Westcontrol AS</item>
+    <item name="h0x026D" type="string">Antik Technology Ltd.</item>
+    <item name="h0x026E" type="string">Springs Window Fashions</item>
+    <item name="h0x026F" type="string">Sprue Safety Products Ltd</item>
+    <item name="h0x0270" type="string">Ubitech</item>
+    <item name="h0x0271" type="string">STEINEL GmbH </item>
+    <item name="h0x0272" type="string">Dune-HD</item>
+    <item name="h0x0274" type="string">Soosan Hometech</item>
+    <item name="h0x0275" type="string">Honest Technology</item>
+    <item name="h0x0276" type="string">Systemair Sverige AB</item>
+    <item name="h0x0277" type="string">Pixela Corporation </item>
+    <item name="h0x0278" type="string">Inventec</item>
+    <item name="h0x027A" type="string">Zooz</item>
+    <item name="h0x027B" type="string">White Rabbit</item>
+    <item name="h0x027D" type="string">Oregon Automation </item>
+    <item name="h0x0280" type="string">Chuango Security Technology Corporation</item>
+    <item name="h0x0281" type="string">PC Partner</item>
+    <item name="h0x0282" type="string">Smart Electronic Industrial (Dongguan) Co., Limited</item>
+    <item name="h0x0283" type="string">TP-Link Technologies Co., Ltd.</item>
+    <item name="h0x0284" type="string">Empers Tech Co., Ltd.</item>
+    <item name="h0x0285" type="string">CONNECTION TECHNOLOGY SYSTEMS </item>
+    <item name="h0x0286" type="string">Shenzhen Easyhome Technology Co., Ltd.</item>
+    <item name="h0x0287" type="string">HAB Home Intelligence, LLC</item>
+    <item name="h0x0288" type="string">INTERSOFT</item>
+    <item name="h0x028A" type="string">Askey Computer Corp.</item>
+    <item name="h0x028B" type="string">Sunjet Components Corp.</item>
+    <item name="h0x028D" type="string">Panodic Electric (Shenzhen) Limited</item>
+    <item name="h0x028E" type="string">Alphanetworks</item>
+    <item name="h0x028F" type="string">Eco Automation</item>
+    <item name="h0x0290" type="string">S1</item>
+    <item name="h0x0291" type="string">Arkea</item>
+    <item name="h0x0293" type="string">Home controls</item>
+    <item name="h0x0294" type="string">D-3 Technology Co. Ltd</item>
+    <item name="h0x0295" type="string">fifthplay nv</item>
+    <item name="h0x0296" type="string">OBLO LIVING LLC</item>
+    <item name="h0x0297" type="string">AdMobilize, LLC</item>
+    <item name="h0x0298" type="string">Horus Smart Control</item>
+    <item name="h0x029A" type="string">Scout Alarm</item>
+    <item name="h0x029B" type="string">ESSENTIAL TECHNOLOGIES INC.</item>
+    <item name="h0x029C" type="string">SoftAtHome</item>
+    <item name="h0x029D" type="string">Rubetek</item>
+    <item name="h0x029F" type="string">AMADAS Co., LTD </item>
+    <item name="h0x0300" type="string">LEEDARSON LIGHTING CO., LTD.</item>
+    <item name="h0x0305" type="string">Future Home AS</item>
+    <item name="h0x0307" type="string">SATCO Products, Inc. </item>
+    <item name="h0x0309" type="string">Comfortability</item>
+    <item name="h0x030B" type="string">Shandong Smart Life Data System Co .LTD</item>
+    <item name="h0x030D" type="string">Hampoo</item>
+    <item name="h0x030F" type="string">Vemmio</item>
+    <item name="h0x0311" type="string">Blaze Automation</item>
+    <item name="h0x0312" type="string">NIE Technology Co., Ltd</item>
+    <item name="h0x0313" type="string">Hoppe</item>
+    <item name="h0x0314" type="string">Raonix Co., Ltd.</item>
+    <item name="h0x0315" type="string">zwaveproducts.com</item>
+    <item name="h0x0316" type="string">Lite Automation</item>
+    <item name="h0x0317" type="string">Think Simple srl</item>
+    <item name="h0x0318" type="string">SBCK Corp. </item>
+    <item name="h0x0319" type="string">Toledo &amp; Co., Inc.</item>
+    <item name="h0x031A" type="string">Panasonic ES Shin Dong-A Co., Ltd</item>
+    <item name="h0x031B" type="string">DVACO GROUP</item>
+    <item name="h0x031C" type="string">Ilevia srl</item>
+    <item name="h0x031D" type="string">Z-Wave Alliance</item>
+    <item name="h0x031E" type="string">Inovelli</item>
+    <item name="h0x031F" type="string">Eelectron SpA</item>
+    <item name="h0x0320" type="string">China Security &amp; Fire IOT Sensing CO., LTD </item>
+    <item name="h0x0322" type="string">Paxton Access Ltd</item>
+    <item name="h0x0323" type="string">SmartHome Partner GmbH</item>
+    <item name="h0x0326" type="string">TODKI</item>
+    <item name="h0x0327" type="string">TMC Technology Ltd.</item>
+    <item name="h0x0328" type="string">Cvnet</item>
+    <item name="h0x0329" type="string">COMAP</item>
+    <item name="h0x032A" type="string">AUCEAN TECHNOLOGY. INC</item>
+    <item name="h0x032B" type="string">Anchor Tech </item>
+    <item name="h0x032C" type="string">Shenzhen Saykey Technology Co., Ltd </item>
+    <item name="h0x032D" type="string">Benetek</item>
+    <item name="h0x032E" type="string">DEFARO</item>
+    <item name="h0x0333" type="string">Toshiba Visual Solution</item>
+    <item name="h0x0334" type="string">Dusun Electron Ltd.</item>
+    <item name="h0x0336" type="string">EMT Controls</item>
+    <item name="h0x0338" type="string">International Integrated Systems, Inc. (IISI)</item>
+    <item name="h0x0339" type="string">SWYCS</item>
+    <item name="h0x033B" type="string">Tingcore AB  (Info24 AB)</item>
+    <item name="h0x033C" type="string">Centurylink</item>
+    <item name="h0x033E" type="string">GE</item>
+    <item name="h0x0341" type="string">Prodea</item>
+    <item name="h0x0342" type="string">LIMEI</item>
+    <item name="h0x0344" type="string">HELTUN</item>
+    <item name="h0x034A" type="string">AcroComm Corp.</item>
+    <item name="h0x034F" type="string">TONG LUNG METAL INDUSTRY CO., LTD.</item>
+    <item name="h0x0350" type="string">AENSys Informatics Ltd.</item>
+    <item name="h0x0351" type="string">NEOCONTROL US LLC</item>
+    <item name="h0x0355" type="string">Qingdao hongyu cles air conditioning co.,ltd.</item>
+    <item name="h0x0356" type="string">Shenzhen ZHIQU Technology Limited</item>
+    <item name="h0x0357" type="string">Shenzhen 3nod Acousticlink Co., LTD</item>
+    <item name="h0x0358" type="string">Star Automation</item>
+    <item name="h0x0359" type="string">Chamberlain Group</item>
+    <item name="h0x035A" type="string">SOREL GmbH </item>
+    <item name="h0x035B" type="string">Aeinnovation (AEI)</item>
+    <item name="h0x035C" type="string">LINK ELECTRONICS Co., Ltd.</item>
+    <item name="h0x035D" type="string">Digital Watchdog</item>
+    <item name="h0x035E" type="string">RISCO Group</item>
+    <item name="h0x035F" type="string">KIWILAB</item>
+    <item name="h0x0361" type="string">NHN Entertainment</item>
+    <item name="h0x0362" type="string">Liaoning Youwang Lighting and Electronic Technology Pty Ltd</item>
+    <item name="h0x0366" type="string">PHILIA TECHNOLOGY Co., Ltd.</item>
+    <item name="h0x0368" type="string">IOOOTA</item>
+    <item name="h0x036B" type="string">NEC Platforms Ltd</item>
+    <item name="h0x036C" type="string">Shenzhen Sen5 Technology Co., Ltd.</item>
+    <item name="h0x036D" type="string">Luffanet Co. Lte. </item>
+    <item name="h0x036E" type="string">Zinno</item>
+    <item name="h0x036F" type="string">Evolvere SpA </item>
+    <item name="h0x0370" type="string">Raylios</item>
+    <item name="h0x0371" type="string">Aeotec Limited</item>
+    <item name="h0x0372" type="string">ALLEATO</item>
+    <item name="h0x0373" type="string">ID Lock AS</item>
+    <item name="h0x0374" type="string">Hyundai Telecom</item>
+    <item name="h0x0375" type="string">T&amp;W（SHENZHEN GONGJIN ELECTRONICS CO.,LTD）</item>
+    <item name="h0x0376" type="string">Pytronic AB </item>
+    <item name="h0x0377" type="string">HORNBACH Baumarkt AG</item>
+    <item name="h0x0378" type="string">Shandong Bittel Intelligent Technology Co., Ltd</item>
+    <item name="h0x0379" type="string">CPRO</item>
+    <item name="h0x037A" type="string">Shenzhen JBT Smart Lighting Co., Ltd</item>
+    <item name="h0x037B" type="string">Guardtec Inc.</item>
+    <item name="h0x037C" type="string">Eco Life Engineering Co., Ltd.</item>
+    <item name="h0x037D" type="string">Xiamen AcTEC Electronics Co., Ltd.</item>
+    <item name="h0x0381" type="string">Shenzhen Thingsview Tech</item>
+    <item name="h0x0382" type="string">INNOPIA Technologies, Inc.</item>
+    <item name="h0x0383" type="string">CribOS</item>
+    <item name="h0x0384" type="string">Ameta International Co. Ltd.</item>
+    <item name="h0x0385" type="string">Inergy Systems LLC</item>
+    <item name="h0x0387" type="string">HangZhou iMagic Technology Co., Ltd</item>
+    <item name="h0x0388" type="string">Vates</item>
+    <item name="h0x0389" type="string">Elear Solutions Tech Pvt. Ltd.</item>
+    <item name="h0x038A" type="string">iamsmart</item>
+    <item name="h0x038C" type="string">Lowes</item>
+    <item name="h0x038D" type="string">nCube</item>
+    <item name="h0x038F" type="string">CHENGPUTECH</item>
+    <item name="h0x0391" type="string">GUANGDONG PHNIX ECO-ENERGY SOLUTION LTD.</item>
+    <item name="h0x0392" type="string">Animus Home AB</item>
+    <item name="h0x0393" type="string">Embedded Data Systems</item>
+    <item name="h0x0394" type="string">SONG JIANG YUN-AN TECHNOLOGY CO., LTD.</item>
+    <item name="h0x0395" type="string">Guangzhou_SIMT  Limited</item>
+    <item name="h0x0396" type="string">Bulcraft Control</item>
+    <item name="h0x0397" type="string">Teptron AB </item>
+    <item name="h0x0398" type="string">Calix</item>
+    <item name="h0x039B" type="string">Reply S.p.A.</item>
+    <item name="h0x039C" type="string">Foxconn Industrial Internet</item>
+    <item name="h0x039D" type="string">ECS</item>
+    <item name="h0x039E" type="string">Invalance</item>
+    <item name="h0x039F" type="string">JLabs Corporation</item>
+    <item name="h0x0400" type="string">Abode</item>
+    <item name="h0x0401" type="string">Grenton Sp. z o.o.</item>
+    <item name="h0x0402" type="string">Sony Mobile Communications Inc.</item>
+    <item name="h0x0403" type="string">ABUS Security-Center GmbH &amp; Co. KG </item>
+    <item name="h0x0404" type="string">CCC Air Inc.</item>
+    <item name="h0x0405" type="string">AEM Acotel Engineering and Manufacturing Spa</item>
+    <item name="h0x0406" type="string">Shenzhen Meian Technology Co. Ltd</item>
+    <item name="h0x0408" type="string">Gerber Technology</item>
+    <item name="h0x0409" type="string">ABUS August Bremicker Söhne KG </item>
+    <item name="h0x040A" type="string">Hangzhou Hikvision Digital Technology Co.,Ltd.</item>
+    <item name="h0x040C" type="string">HEIGHTS TELECOM T LTD</item>
+    <item name="h0x040D" type="string">Delaney Hardware</item>
+    <item name="h0x040E" type="string">ZHONGSHAN YunJia INTELLIGENT TECHNOLOGY CO.,LTD</item>
+    <item name="h0x040F" type="string">RATOC Systems Inc.</item>
+    <item name="h0x5254" type="string">Remotec</item>
+    <item name="h0xFFFF" type="string">_Not defined</item>
+
+</resources>

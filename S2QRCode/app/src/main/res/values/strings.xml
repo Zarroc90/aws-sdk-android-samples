@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">S2 QR-Code</string>
+    <string name="title_scan">Scan</string>
+    <string name="title_codes">Code</string>
+    <string name="title_history">History</string>
+
+    <string name="textview_lead_in_label">Lead-in</string>
+
+    <string name="len3_label">Length</string>
+
+    <string name="critical3_label">TypeCritical</string>
+
+    <string name="uuid_label">UUID</string>
+
+    <string name="app_version_label">Z-Wave Application Version</string>
+
+    <string name="prod_id_label">Z-Wave Product ID</string>
+
+    <string name="prod_type_label">Z-Wave Product Type</string>
+
+    <string name="manufacturere_label">Manufacturer ID</string>
+
+    <string name="len2_label">Length</string>
+
+    <string name="critical2_label">TypeCritical</string>
+
+    <string name="prod_icon_type_label">Installer Icon Type</string>
+
+    <string name="dev_type_label">Device Type</string>
+
+    <string name="len_label">Length</string>
+
+    <string name="critical_label">TypeCritical</string>
+
+    <string name="dsk_label">DSK</string>
+
+    <string name="req_key_label">Requested Keys</string>
+
+    <string name="checksum_label">Checksum</string>
+
+    <string name="version_label">Version</string>
+
+
+</resources>

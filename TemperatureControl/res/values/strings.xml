@@ -6,4 +6,5 @@
     <string name="enabled">Enabled</string>
     <string name="SetpointButtonText">Set</string>
     <string name="UnknownTemperatureText">\?\?</string>
+    <string name="default_web_client_id">121076335235-ut3kl2hemvfv0o6e1oqgvkul4fpitor8.apps.googleusercontent.com</string>
 </resources>
