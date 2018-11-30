@@ -18,10 +18,12 @@ buildscript {
 apply plugin: 'com.android.application'
 
 dependencies {
+
     implementation 'com.amazonaws:aws-android-sdk-iot:2.7.5'
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
     implementation 'com.google.android.gms:play-services-identity:16.0.0'
     //implementation 'com.google.android.gms:play-services:12.0.1'
+
 }
 
 android {

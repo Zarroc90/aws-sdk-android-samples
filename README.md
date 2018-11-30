@@ -1,10 +1,13 @@
-AWS Mobile SDK for Android Samples
+AWS SDK for Android Samples
 =======================
 
-This repository has samples that demonstrate various aspects of the [AWS Mobile SDK Version 2 for Android](http://aws.amazon.com/sdkforandroid), you can get the [source on Github](https://github.com/aws/aws-sdk-android-v2).  To find the AWS Mobile SDK Version 1 for Android samples, please select the v1 branch.
+This repository has samples that demonstrate various aspects of the [AWS SDK for Android](https://github.com/aws-amplify/aws-sdk-android).
 
-Please refer to README file in each folder for more specific instructions. For
-general issues and help, check the <a href="#faqs">FAQs</a> section
+### Resources
+
+* [Developer Guide for AWS SDK for Android](https://aws-amplify.github.io/docs/android/start)
+
+Please refer to README file in each folder for more specific instructions. For general issues and help, check the <a href="#faqs">FAQs</a> section
 
 ### List of Samples
 
@@ -13,18 +16,10 @@ general issues and help, check the <a href="#faqs">FAQs</a> section
   + Amazon Cognito Identity
   + Amazon Cognito Identity Provider (Your User Pools)
 
-* [CognitoSyncDemo](CognitoSyncDemo/README.md). This is a sample mobile application that demonstrates how to use Amazon Cognito. Involved AWS Services are:
-  + Amazon Cognito Identity
-  + Amazon Cognito Sync
-
 * [S3TransferUtilitySample](S3TransferUtilitySample/README.md). This is a sample mobile application that demonstrates how to use Amazon S3 Transfer Utility to download and upload files to Amazon S3. Involved AWS Services are:
   + Amazon Cognito Identity
   + Amazon S3
-      
-* [DynamoDBMapper](DynamoDBMapper_UserPreference_Cognito/README.md). This is a sample mobile application that demonstrates how to use Amazon DynamoDB Object Mapper. Involved AWS Services are:
-  + Amazon Cognito Identity
-  + Amazon DynamoDB
-     
+
 * [AndroidPubSub](AndroidPubSub/README.md). This sample demonstrates use of the AWS IoT APIs to securely publish to and subscribe from MQTT topics with TLS and IoT certificates. Involved AWS Services are:
   + Amazon Cognito Identity
   + AWS IoT
@@ -67,12 +62,6 @@ This is the recommended way to run samples.
 * Connect an Android device to your computer or start an Android emulator. The minimum required API version for most samples is API level 10.
 * Compile the sample and install it. Run `gradlew installDebug`. Or if you on a Windows computer, use `gradlew.bat` instead. 
 
-#### Eclipse
-* Import sample project. Via menu, click File -> New -> Other -> Android Project from Existing Code. Browse to the sample directory and select a sample project to import.
-* Get AWS Mobile SDK for Android. You can download it from [AWS Mobile SDK](https://aws.amazon.com/mobile/sdk/) website. Extract it, and copy libraries to the `libs` folder of the sample. Please refer to the README of each sample for required libraries.
-* Update source code with your AWS resources. Please read the README of each sample for more details.
-* Run it!
-
 ### FAQs<a name="faqs"></a>
 ##### The sample can no longer be compiled/imported if I move it to another directory
 * We typically include the dependencies in the repo and have them already
@@ -90,3 +79,7 @@ version you would like to use.
 
 ##### Where do I find login-with-amazon-sdk.jar?
 * The jar is usually already included where required. However, if not or if you want to use a different version, you can find it <a href="https://developer.amazon.com/public/apis/engage/login-with-amazon/docs/install_sdk_android.html">here</a>.
+
+### Getting Help
+
+We use [AWS Android SDK GitHub issues](https://github.com/aws-amplify/aws-sdk-android/issues) for tracking questions, bugs, and feature requests.
