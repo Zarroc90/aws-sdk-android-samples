@@ -137,19 +137,14 @@
         android:layout_weight="1"
         android:orientation="horizontal" >
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:gravity="center_vertical"
-            android:text="Message:" />
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button"
+            android:textAlignment="viewStart" />
 
-        <EditText
-            android:id="@+id/txtMessage"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:gravity="center_vertical" />
     </LinearLayout>
 
     <Button
@@ -157,6 +152,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:text="Publish" />
+        android:text="Create Device and write Message " />
 
 </LinearLayout>

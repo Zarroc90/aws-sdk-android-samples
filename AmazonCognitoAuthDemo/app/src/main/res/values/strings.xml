@@ -3,7 +3,7 @@
     <string name="app_main_screen_title">Cognito Auth Demo</string>
 
     <!-- TODO: Add your Cognito pool details here -->
-    <string name="cognito_web_domain">YOUR_COGNITO_APP_DOMAIN</string>
+    <string name="cognito_web_domain">foo.auth.us-east-1.amazoncognito.com</string>
     <string name="cognito_client_id">YOUR_COGNITO_APP_CLIENT_ID</string>
     <string name="cognito_client_secret">YOUR_COGNITO_APP_CLIENT_SECRET</string>
     <string name="app_redirect">demoapp://www.loginactivity.com/mainactivity</string>

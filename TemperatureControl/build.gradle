@@ -10,7 +10,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath 'com.android.tools.build:gradle:3.2.1'
         classpath 'com.google.gms:google-services:3.2.0'
     }
 }
@@ -19,7 +19,7 @@ apply plugin: 'com.android.application'
 
 dependencies {
 
-    implementation 'com.amazonaws:aws-android-sdk-iot:2.7.5'
+    implementation 'com.amazonaws:aws-android-sdk-iot:2.8.+'
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
     implementation 'com.google.android.gms:play-services-identity:16.0.0'
     //implementation 'com.google.android.gms:play-services:12.0.1'

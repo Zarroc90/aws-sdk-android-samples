@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">AndroidPubSub</string>
+    <string name="app_name">WiFi Demo</string>
+    <string name="appName">WiFi Demo</string>
+    <string name="amazonLoginButton">Login via Amazon</string>
+    <string name="default_web_client_id">294921058670-vqcgl1gf0pipeot2s2lt1lavtnq2ntin.apps.googleusercontent.com</string>
+    <string name="server_client_id">121076335235-m4r218ol2uckaiscnhk5nj3vh4pusjhr.apps.googleusercontent.com</string>
+    <string name="password">Enter WiFi Password</string>
+    <string name="signin">Connect</string>
+    <string name="cancel">Cancel</string>
+
 </resources>

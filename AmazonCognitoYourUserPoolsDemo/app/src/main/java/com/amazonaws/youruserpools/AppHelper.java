@@ -80,12 +80,12 @@ public class AppHelper {
     /**
      * Add your pool id here
      */
-    private static final String userPoolId = "Your userpool id here";
+    private static final String userPoolId = "eu-central-1:4b38968f-863d-4286-a967-8dfd62fb754c";
 
     /**
      * Add you app id
      */
-    private static final String clientId = "Your client id here";
+    private static final String clientId = "TemperatureControl";
 
     /**
      * App secret associated with your app id - if the App id does not have an associated App secret,
@@ -98,7 +98,7 @@ public class AppHelper {
      * Set Your User Pools region.
      * e.g. if your user pools are in US East (N Virginia) then set cognitoRegion = Regions.US_EAST_1.
      */
-    private static final Regions cognitoRegion = Regions.DEFAULT;
+    private static final Regions cognitoRegion = Regions.EU_CENTRAL_1;
 
     // User details from the service
     private static CognitoUserSession currSession;
