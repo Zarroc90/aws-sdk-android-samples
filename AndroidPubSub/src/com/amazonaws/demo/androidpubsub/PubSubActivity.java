@@ -1,23 +1,7 @@
-/**
- * Copyright 2010-2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at:
- *
- *    http://aws.amazon.com/apache2.0
- *
- * This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES
- * OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.amazonaws.demo.androidpubsub;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -30,8 +14,6 @@ import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.ParcelUuid;
-import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
@@ -39,24 +21,18 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.AWSCognitoIdentityProvider;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
-import com.amazonaws.auth.IdentityChangedListener;
 import com.amazonaws.demo.androidpubsub.Res.IDProvider;
-import com.amazonaws.mobileconnectors.iot.AWSIotKeystoreHelper;
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttClientStatusCallback;
-import com.amazonaws.mobileconnectors.iot.AWSIotMqttLastWillAndTestament;
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttManager;
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttNewMessageCallback;
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttQos;
@@ -64,17 +40,15 @@ import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.iot.AWSIotClient;
 import com.amazonaws.services.iot.model.AttachPolicyRequest;
-import com.amazonaws.services.iot.model.AttachPrincipalPolicyRequest;
 import com.amazonaws.services.iot.model.AttachThingPrincipalRequest;
-import com.amazonaws.services.iot.model.AttachThingPrincipalResult;
 import com.amazonaws.services.iot.model.AttributePayload;
-import com.amazonaws.services.iot.model.CreateKeysAndCertificateRequest;
-import com.amazonaws.services.iot.model.CreateKeysAndCertificateResult;
 import com.amazonaws.services.iot.model.CreateThingRequest;
+import com.amazonaws.services.iot.model.DeleteThingRequest;
+import com.amazonaws.services.iot.model.DetachThingPrincipalRequest;
+import com.amazonaws.services.iot.model.ListThingPrincipalsRequest;
+import com.amazonaws.services.iot.model.ListThingPrincipalsResult;
 import com.amazonaws.services.iot.model.ListThingsRequest;
 import com.amazonaws.services.iot.model.ListThingsResult;
-import com.amazonaws.services.iot.model.Tag;
-import com.amazonaws.services.iot.model.TargetSelection;
 import com.amazonaws.services.iotdata.AWSIotDataClient;
 import com.amazonaws.services.iotdata.model.GetThingShadowRequest;
 import com.amazonaws.services.iotdata.model.GetThingShadowResult;
@@ -83,34 +57,24 @@ import com.espressif.iot.esptouch.IEsptouchListener;
 import com.espressif.iot.esptouch.IEsptouchResult;
 import com.espressif.iot.esptouch.IEsptouchTask;
 import com.espressif.iot.esptouch.task.__IEsptouchTask;
-import com.espressif.iot.esptouch.util.ByteUtil;
-import com.espressif.iot.esptouch.util.EspNetUtil;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
-import org.eclipse.paho.client.mqttv3.MqttToken;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Console;
 import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+
 
 import static com.amazonaws.demo.androidpubsub.Res.Statics.authRequest;
 
-public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFragment.WiFiPWDialogListener {
+public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFragment.WiFiPWDialogListener,RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
     static final String LOG_TAG = PubSubActivity.class.getCanonicalName();
     private static final String TAG = "PoppWifi";
@@ -132,7 +96,7 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
     // Filename of KeyStore file on the filesystem
     private static final String KEYSTORE_NAME = "Keystore";
     // Password for the private key in the KeyStore
-    private static final String KEYSTORE_PASSWORD = "innovus2008!" ;
+    private static final String KEYSTORE_PASSWORD = "innovus2008!";
     // Certificate and key aliases in the KeyStore
     private static final String CERTIFICATE_ID = "key0";
 
@@ -179,6 +143,7 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
     private ArrayList<String> mpowerText = new ArrayList<>();
     private ArrayList<Boolean> mbuttonState = new ArrayList<>();
 
+
     private EsptouchAsyncTask4 mTask;
     private boolean mDestroyed = false;
     private static final int REQUEST_PERMISSION = 0x01;
@@ -216,13 +181,12 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-        listThingsResult= new ListThingsResult();
+        listThingsResult = new ListThingsResult();
         listThingsRequest = new ListThingsRequest();
-        getThingShadowRequest =new GetThingShadowRequest();
+        getThingShadowRequest = new GetThingShadowRequest();
         getThingShadowResult = new GetThingShadowResult();
         TextView wifiSSID = findViewById(R.id.wifissid);
         EditText editText = findViewById(R.id.password);
-
 
 
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -247,62 +211,18 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
         }
 
         initRecyclerView();
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
         final FloatingActionButton fab = findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
-                bundle.putString("ssid",mSsid);
-                bundle.putString("bssid",bSsid);
+                bundle.putString("ssid", mSsid);
+                bundle.putString("bssid", bSsid);
                 WiFiPWDialogFragment wiFiPWDialogFragment = new WiFiPWDialogFragment();
-                wiFiPWDialogFragment.show(getSupportFragmentManager(),"Test");
+                wiFiPWDialogFragment.show(getSupportFragmentManager(), "Test");
                 wiFiPWDialogFragment.setArguments(bundle);
-
-
-                /*
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        CreateThingRequest createThingRequest = new CreateThingRequest();
-                        createThingRequest.setThingName("IP44_Plug_80:7D:3A:66:3A:6C");
-                        createThingRequest.setThingTypeName("PowerPlug");
-                        AttributePayload attributePayload = new AttributePayload();
-                        attributePayload.addattributesEntry("ProductionNr","061220180100001");
-                        attributePayload.addattributesEntry("model","ip44");
-                        attributePayload.addattributesEntry("user",clientId);
-                        createThingRequest.setAttributePayload(attributePayload);
-                        mIotAndroidClient.createThing(createThingRequest);
-                        AttachThingPrincipalRequest attachThingPrincipalRequest = new AttachThingPrincipalRequest();
-                        attachThingPrincipalRequest.setThingName("IP44_Plug_80:7D:3A:66:3A:6C");
-                        attachThingPrincipalRequest.setPrincipal("arn:aws:iot:eu-central-1:370334120503:cert/f05bd2c0e7f41f1368016f4d9bd4491c66ccc62a8c390f4dd161b345fb195625");
-                        mIotAndroidClient.attachThingPrincipal(attachThingPrincipalRequest);
-                        listThingsRequest.setAttributeName("user");
-                        listThingsRequest.setAttributeValue(clientId);
-                        listThingsResult=mIotAndroidClient.listThings(listThingsRequest);
-                        System.out.println("Things: " + listThingsResult.toString());
-
-                        int numberofThings = listThingsResult.getThings().size();
-
-                        if(numberofThings>0){
-                            for(int i=0;i<=numberofThings;i++){
-                                mdeviceNames.add(listThingsResult.getThings().get(i).getThingName());
-                                mdeviceImages.add(listThingsResult.getThings().get(i).getAttributes().get("model"));
-                                mpowerText.add("18.5 W");
-                                mbuttonState.add(Boolean.TRUE);
-                                runOnUiThread(new Runnable() {
-
-                                    @Override
-                                    public void run() {
-                                        int j = recyclerViewAdapter.getItemCount();
-                                        recyclerViewAdapter.notifyItemInserted(j+1);
-                                    }
-                                });
-
-                            }
-                        }
-
-                    }
-                }).start(); */
 
 
             }
@@ -310,21 +230,21 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
         super.onCreate(savedInstanceState);
     }
 
-    private void initRecyclerView(){
+    private void initRecyclerView() {
         recyclerView = findViewById(R.id.recycler_view);
-        recyclerViewAdapter = new RecyclerViewAdapter(mdeviceNames,mdeviceImages,mpowerText,mbuttonState,this);
+        recyclerViewAdapter = new RecyclerViewAdapter(mdeviceNames, mdeviceImages, mpowerText, mbuttonState, this);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
-            case authRequest:{
-                switch (resultCode){
-                    case Activity.RESULT_OK:{
+        switch (requestCode) {
+            case authRequest: {
+                switch (resultCode) {
+                    case Activity.RESULT_OK: {
                         String result = data.getStringExtra("result");
-                        System.out.println("Result: "+result);
+                        System.out.println("Result: " + result);
 
 
                         IDProvider idProvider = new IDProvider(getApplicationContext());
@@ -342,7 +262,7 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
                         clientId = credentialsProvider.getIdentityId();
                         Log.d(LOG_TAG, "clientId = " + clientId);
                         mqttManager = new AWSIotMqttManager("AndroidApp", CUSTOMER_SPECIFIC_ENDPOINT);
-                        mqttManager.connect(credentialsProvider,new AWSIotMqttClientStatusCallback() {
+                        mqttManager.connect(credentialsProvider, new AWSIotMqttClientStatusCallback() {
                             @Override
                             public void onStatusChanged(final AWSIotMqttClientStatus status,
                                                         final Throwable throwable) {
@@ -350,29 +270,29 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
                                     @Override
                                     public void run() {
                                         if (status == AWSIotMqttClientStatus.Connecting) {
-                                            Toast.makeText(getApplicationContext(), "Connecting...",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(), "Connecting...", Toast.LENGTH_SHORT).show();
                                             //tvStatus.setText("Connecting...");
 
                                         } else if (status == AWSIotMqttClientStatus.Connected) {
-                                            Toast.makeText(getApplicationContext(), "Connected",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
                                             //tvStatus.setText("Connected");
 
                                         } else if (status == AWSIotMqttClientStatus.Reconnecting) {
                                             if (throwable != null) {
                                                 Log.e(LOG_TAG, "Connection error.", throwable);
-                                                Toast.makeText(getApplicationContext(), "Connection error.",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getApplicationContext(), "Connection error.", Toast.LENGTH_SHORT).show();
                                             }
                                             //tvStatus.setText("Reconnecting");
                                         } else if (status == AWSIotMqttClientStatus.ConnectionLost) {
                                             if (throwable != null) {
                                                 Log.e(LOG_TAG, "Connection error.", throwable);
-                                                Toast.makeText(getApplicationContext(), "Connection error.",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getApplicationContext(), "Connection error.", Toast.LENGTH_SHORT).show();
                                             }
                                             //tvStatus.setText("Disconnected");
-                                            Toast.makeText(getApplicationContext(), "Disconnected",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(), "Disconnected", Toast.LENGTH_SHORT).show();
                                         } else {
                                             //tvStatus.setText("Disconnected");
-                                            Toast.makeText(getApplicationContext(), "Disconnected",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(), "Disconnected", Toast.LENGTH_SHORT).show();
 
                                         }
                                     }
@@ -392,8 +312,6 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
                         cognitoCachingCredentialsProvider.setLogins(logins);
 
 
-
-
                         initRecyclerView();
 
                         new Thread(new Runnable() {
@@ -407,28 +325,28 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
 
                                 listThingsRequest.setAttributeName("user");
                                 listThingsRequest.setAttributeValue(clientId);
-                                listThingsResult=mIotAndroidClient.listThings(listThingsRequest);
+                                listThingsResult = mIotAndroidClient.listThings(listThingsRequest);
 
                                 System.out.println(listThingsResult.toString());
 
                                 int numberofThings = listThingsResult.getThings().size();
 
-                                if(numberofThings>0){
-                                    for(int i=0;i<numberofThings;i++){
+                                if (numberofThings > 0) {
+                                    for (int i = 0; i < numberofThings; i++) {
                                         mdeviceNames.add(listThingsResult.getThings().get(i).getThingName());
                                         mdeviceImages.add(listThingsResult.getThings().get(i).getAttributes().get("model"));
                                         mpowerText.add("18.5 W");
                                         getThingShadowRequest.setThingName(listThingsResult.getThings().get(i).getThingName());
-                                        String ServiceName= iotDataClient.getEndpoint();
+                                        String ServiceName = iotDataClient.getEndpoint();
                                         getThingShadowRequest.setThingName(listThingsResult.getThings().get(i).getThingName());
                                         getThingShadowResult = iotDataClient.getThingShadow(getThingShadowRequest);
-                                        String jsonShadow = new String(getThingShadowResult.getPayload().array(),StandardCharsets.UTF_8);
-                                        JSONObject object,report;
+                                        String jsonShadow = new String(getThingShadowResult.getPayload().array(), StandardCharsets.UTF_8);
+                                        JSONObject object, report;
                                         JSONArray reported;
-                                        String status="";
+                                        String status = "";
                                         try {
                                             object = new JSONObject(jsonShadow);
-                                            status=object.getJSONObject("state").getJSONObject("reported").getString("switch");
+                                            status = object.getJSONObject("state").getJSONObject("reported").getString("switch");
                                             reported = object.getJSONArray("state");
                                             report = reported.getJSONObject(0);
                                             //status=report.getString("status");
@@ -437,18 +355,18 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
                                         }
 
                                         Boolean plugstatus;
-                                        if(status.contains("on")){
-                                            plugstatus=true;
-                                        }else{
-                                            plugstatus=false;
+                                        if (status.contains("on")) {
+                                            plugstatus = true;
+                                        } else {
+                                            plugstatus = false;
                                         }
 
                                         mbuttonState.add(plugstatus);
 
 
-                                        String mytopic ="";
-                                        if(mytopic.isEmpty()||mytopic==null){
-                                            mytopic="$aws/things/"+ listThingsResult.getThings().get(i).getThingName()+"/shadow/update";
+                                        String mytopic = "";
+                                        if (mytopic.isEmpty() || mytopic == null) {
+                                            mytopic = "$aws/things/" + listThingsResult.getThings().get(i).getThingName() + "/shadow/update";
                                         }
                                         final String topic = mytopic;
 
@@ -462,21 +380,21 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
                                                         public void onMessageArrived(final String topic, final byte[] data) {
                                                             try {
                                                                 String message = new String(data, "UTF-8");
-                                                                JSONObject object,report;
+                                                                JSONObject object, report;
                                                                 JSONArray reported;
-                                                                String status="";
+                                                                String status = "";
                                                                 try {
                                                                     object = new JSONObject(message);
-                                                                    status=object.getJSONObject("state").getJSONObject("reported").getString("switch");
+                                                                    status = object.getJSONObject("state").getJSONObject("reported").getString("switch");
                                                                 } catch (JSONException e) {
                                                                     e.printStackTrace();
                                                                 }
 
-                                                                if(status.contains("on")){
-                                                                    for(int i=0;i<mdeviceNames.size();i++){
-                                                                        final int itemNr =i;
-                                                                        if(topic.contains(mdeviceNames.get(i))){
-                                                                            mbuttonState.set(i,true);
+                                                                if (status.contains("on")) {
+                                                                    for (int i = 0; i < mdeviceNames.size(); i++) {
+                                                                        final int itemNr = i;
+                                                                        if (topic.contains(mdeviceNames.get(i))) {
+                                                                            mbuttonState.set(i, true);
                                                                             runOnUiThread(new Runnable() {
 
                                                                                 @Override
@@ -489,11 +407,11 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
                                                                         }
                                                                     }
                                                                 }
-                                                                if(status.contains("off")){
-                                                                    for(int i=0;i<mdeviceNames.size();i++){
-                                                                        final int itemNr =i;
-                                                                        if(topic.contains(mdeviceNames.get(i))){
-                                                                            mbuttonState.set(i,false);
+                                                                if (status.contains("off")) {
+                                                                    for (int i = 0; i < mdeviceNames.size(); i++) {
+                                                                        final int itemNr = i;
+                                                                        if (topic.contains(mdeviceNames.get(i))) {
+                                                                            mbuttonState.set(i, false);
                                                                             runOnUiThread(new Runnable() {
 
                                                                                 @Override
@@ -522,7 +440,7 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
                                             public void run() {
 
                                                 int j = recyclerViewAdapter.getItemCount();
-                                                recyclerViewAdapter.notifyItemInserted(j+1);
+                                                recyclerViewAdapter.notifyItemInserted(j + 1);
 
                                             }
                                         });
@@ -534,32 +452,29 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
                         }).start();
 
 
-
-
                         break;
                     }
-                    case Activity.RESULT_CANCELED:{
+                    case Activity.RESULT_CANCELED: {
                         //Not logged in
                         break;
                     }
                 }
                 break;
             }
-            default:{
+            default: {
                 break;
             }
         }
     }
 
 
+    public void publishMqttMessage(String msg, String topic, AWSIotMqttQos quality) {
 
-    public void publishMqttMessage (String msg,String topic, AWSIotMqttQos quality){
-
-        mqttManager.publishString(msg,topic,quality);
+        mqttManager.publishString(msg, topic, quality);
 
     }
 
-     @Override
+    @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
         /*byte[] ssid = ByteUtil.getBytesByString("Z-Wave");
         byte[] password = ByteUtil.getBytesByString("ZWESMHT2018!");
@@ -576,6 +491,95 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
 
+    }
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, final int position) {
+        if (viewHolder instanceof RecyclerViewAdapter.ViewHolder) {
+            // get the removed item name to display it in snack bar
+            /*String name =  ((RecyclerViewAdapter.ViewHolder) viewHolder).device_name;
+
+            // backup of removed item for undo purpose
+            final Item deletedItem = cartList.get(viewHolder.getAdapterPosition());
+            final int deletedIndex = viewHolder.getAdapterPosition();
+
+            // remove the item from recycler view
+            mAdapter.removeItem(viewHolder.getAdapterPosition());
+
+            */
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+
+                    ListThingPrincipalsRequest listThingPrincipalsRequest = new ListThingPrincipalsRequest();
+                    ListThingPrincipalsResult listThingPrincipalsResult = new ListThingPrincipalsResult();
+                    listThingPrincipalsRequest.withThingName(mdeviceNames.get(position));
+                    listThingPrincipalsResult = mIotAndroidClient.listThingPrincipals(listThingPrincipalsRequest);
+                    ListThingsRequest listThingsRequest = new ListThingsRequest();
+                    ListThingsResult listThingsResult = new ListThingsResult();
+                    listThingsRequest.setAttributeName("model");
+                    listThingsRequest.withAttributeValue("ip44");
+                    listThingsResult = mIotAndroidClient.listThings(listThingsRequest);
+
+                    int numberofThings = listThingsResult.getThings().size();
+                    String target = "";
+                    if (numberofThings > 0) {
+                        for (int i = 0; i < numberofThings; i++) {
+                            if (listThingsResult.getThings().get(i).getThingName().equals(mdeviceNames.get(position))){
+                                target=listThingsResult.getThings().get(i).getThingArn();
+                            }
+                        }
+                    }
+
+
+
+                    int numberofPrincipals = listThingPrincipalsResult.getPrincipals().size();
+
+                    if (numberofPrincipals > 0) {
+                        for (int i = 0; i < numberofPrincipals; i++) {
+                            DetachThingPrincipalRequest detachThingPrincipalRequest = new DetachThingPrincipalRequest();
+                            detachThingPrincipalRequest.setPrincipal(listThingPrincipalsResult.getPrincipals().get(i));
+                            detachThingPrincipalRequest.setThingName(mdeviceNames.get(position));
+                            mIotAndroidClient.detachThingPrincipal(detachThingPrincipalRequest);
+                        }
+                    }
+
+                    DeleteThingRequest deleteThingRequest = new DeleteThingRequest();
+                    deleteThingRequest.setThingName(mdeviceNames.get(position));
+                    mIotAndroidClient.deleteThing(deleteThingRequest);
+                    recyclerViewAdapter.removeItem(position);
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            recyclerViewAdapter.notifyItemRemoved(position);
+                        }
+                    });
+                }
+            }).start();
+
+
+
+
+
+
+            /*
+
+            // showing snack bar with Undo option
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, name + " removed from cart!", Snackbar.LENGTH_LONG);
+            snackbar.setAction("UNDO", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    // undo is selected, restore the deleted item
+                    mAdapter.restoreItem(deletedItem, deletedIndex);
+                }
+            });
+            snackbar.setActionTextColor(Color.YELLOW);
+            snackbar.show();*/
+        }
     }
 
     public static class EsptouchAsyncTask4 extends AsyncTask<byte[], Void, List<IEsptouchResult>> {
@@ -720,38 +724,38 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
         }
     }
 
-    void addDevice(final String macAddress){
+    void addDevice(final String macAddress) {
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 char divisionChar = ':';
-                String mac = macAddress.replaceAll("(.{2})", "$1"+divisionChar).substring(0,17);
-                String thingname= "IP44_Plug_"+mac.toUpperCase();
+                String mac = macAddress.replaceAll("(.{2})", "$1" + divisionChar).substring(0, 17);
+                String thingname = "IP44_Plug_" + mac.toUpperCase();
                 CreateThingRequest createThingRequest = new CreateThingRequest();
                 createThingRequest.setThingName(thingname);
                 createThingRequest.setThingTypeName("PowerPlug");
                 AttributePayload attributePayload = new AttributePayload();
-                attributePayload.addattributesEntry("ProductionNr","061220180100001");
-                attributePayload.addattributesEntry("model","ip44");
-                attributePayload.addattributesEntry("user",clientId);
+                attributePayload.addattributesEntry("ProductionNr", "061220180100001");
+                attributePayload.addattributesEntry("model", "ip44");
+                attributePayload.addattributesEntry("user", clientId);
                 createThingRequest.setAttributePayload(attributePayload);
                 mIotAndroidClient.createThing(createThingRequest);
                 AttachThingPrincipalRequest attachThingPrincipalRequest = new AttachThingPrincipalRequest();
                 attachThingPrincipalRequest.setThingName(thingname);
                 attachThingPrincipalRequest.setPrincipal("arn:aws:iot:eu-central-1:370334120503:cert/f05bd2c0e7f41f1368016f4d9bd4491c66ccc62a8c390f4dd161b345fb195625");
                 mIotAndroidClient.attachThingPrincipal(attachThingPrincipalRequest);
-                String topic = "$aws/things/"+thingname+"/shadow/update";
-                String msg = "{\"state\":{\"desired\":{\"switch\":\""+"off"+"\"}}}";
-                publishMqttMessage(msg,topic,AWSIotMqttQos.QOS0);
+                String topic = "$aws/things/" + thingname + "/shadow/update";
+                String msg = "{\"state\":{\"desired\":{\"switch\":\"" + "off" + "\"}}}";
+                publishMqttMessage(msg, topic, AWSIotMqttQos.QOS0);
                 /*listThingsRequest.setAttributeName("user");
                 listThingsRequest.setAttributeValue(clientId);
                 listThingsResult=mIotAndroidClient.listThings(listThingsRequest);
                 System.out.println("Things: " + listThingsResult.toString());*/
 
-                String mytopic ="";
-                if(mytopic.isEmpty()||mytopic==null){
-                    mytopic="$aws/things/"+ thingname+"/shadow/update";
+                String mytopic = "";
+                if (mytopic.isEmpty() || mytopic == null) {
+                    mytopic = "$aws/things/" + thingname + "/shadow/update";
                 }
                 final String topic1 = mytopic;
 
@@ -765,21 +769,21 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
                                 public void onMessageArrived(final String topic1, final byte[] data) {
                                     try {
                                         String message = new String(data, "UTF-8");
-                                        JSONObject object,report;
+                                        JSONObject object, report;
                                         JSONArray reported;
-                                        String status="";
+                                        String status = "";
                                         try {
                                             object = new JSONObject(message);
-                                            status=object.getJSONObject("state").getJSONObject("reported").getString("switch");
+                                            status = object.getJSONObject("state").getJSONObject("reported").getString("switch");
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
 
-                                        if(status.contains("on")){
-                                            for(int i=0;i<mdeviceNames.size();i++){
-                                                final int itemNr =i;
-                                                if(topic1.contains(mdeviceNames.get(i))){
-                                                    mbuttonState.set(i,true);
+                                        if (status.contains("on")) {
+                                            for (int i = 0; i < mdeviceNames.size(); i++) {
+                                                final int itemNr = i;
+                                                if (topic1.contains(mdeviceNames.get(i))) {
+                                                    mbuttonState.set(i, true);
                                                     runOnUiThread(new Runnable() {
 
                                                         @Override
@@ -792,11 +796,11 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
                                                 }
                                             }
                                         }
-                                        if(status.contains("off")){
-                                            for(int i=0;i<mdeviceNames.size();i++){
-                                                final int itemNr =i;
-                                                if(topic1.contains(mdeviceNames.get(i))){
-                                                    mbuttonState.set(i,false);
+                                        if (status.contains("off")) {
+                                            for (int i = 0; i < mdeviceNames.size(); i++) {
+                                                final int itemNr = i;
+                                                if (topic1.contains(mdeviceNames.get(i))) {
+                                                    mbuttonState.set(i, false);
                                                     runOnUiThread(new Runnable() {
 
                                                         @Override
@@ -827,11 +831,9 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
                     @Override
                     public void run() {
                         int j = recyclerViewAdapter.getItemCount();
-                        recyclerViewAdapter.notifyItemInserted(j+1);
+                        recyclerViewAdapter.notifyItemInserted(j + 1);
                     }
                 });
-
-
 
 
             }
@@ -876,9 +878,9 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
             if (ssid.startsWith("\"") && ssid.endsWith("\"")) {
                 ssid = ssid.substring(1, ssid.length() - 1);
             }
-            mSsid=ssid;
+            mSsid = ssid;
             String bssid = info.getBSSID();
-            bSsid =bssid;
+            bSsid = bssid;
         }
     }
 
@@ -887,4 +889,5 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
         registerReceiver(mReceiver, filter);
         mReceiverRegistered = true;
     }
+
 }

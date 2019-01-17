@@ -7,5 +7,6 @@
     <string name="password">Enter WiFi Password</string>
     <string name="signin">Connect</string>
     <string name="cancel">Cancel</string>
+    <string name="delete">Löschen</string>
 
 </resources>

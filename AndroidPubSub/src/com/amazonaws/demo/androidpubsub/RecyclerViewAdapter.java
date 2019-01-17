@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private static final String TAG = "RecyclerViewAdapter";
 
@@ -30,6 +30,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private ArrayList<String> mpowerText = new ArrayList<>();
     private ArrayList<Boolean> mbuttonState = new ArrayList<>();
     private Context context;
+
+    public interface OnItemLongClickListener {
+        public boolean onItemLongClicked(int position);
+    }
+
 
     public RecyclerViewAdapter(ArrayList<String> mdeviceNames, ArrayList<String> mdeviceImage, ArrayList<String> mpowerText, ArrayList<Boolean> mbuttonState, Context context) {
         this.mdeviceNames = mdeviceNames;
@@ -48,7 +53,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position)  {
         Log.d(TAG,"onBindViewHolder called.");
 
         Resources resources = context.getResources();
@@ -93,7 +98,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             }
         });
+        viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener(){
 
+            @Override
+            public boolean onLongClick(View view) {
+
+                RecyclerViewAdapter.OnItemLongClicked(position);
+                return false;
+            }
+        });
+
+
+
+    }
+
+    private static void OnItemLongClicked(int position) {
+        System.out.println("Item "+position+" pressed long.");
 
     }
 
@@ -106,14 +126,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mdeviceNames.get(position);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         CircleImageView device_image;
         TextView device_name;
         CircleImageView power_image;
         TextView power_text;
         Button on_off_button;
-        RelativeLayout relativeLayout;
+        RelativeLayout parent_layout;
+        RelativeLayout view_background;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -123,7 +146,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             power_image=itemView.findViewById(R.id.power_icon);
             power_text=itemView.findViewById(R.id.power_text);
             on_off_button=itemView.findViewById(R.id.button);
-            relativeLayout= itemView.findViewById(R.id.parent_layout);
+            parent_layout= itemView.findViewById(R.id.parent_layout);
+            view_background = itemView.findViewById(R.id.view_background);
         }
+
+
+    }
+
+    public void removeItem(int position) {
+        mdeviceNames.remove(position);
+        mpowerText.remove(position);
+        mbuttonState.remove(position);
+        mdeviceImage.remove(position);
+        // notify the item removed by position
+        // to perform recycler view delete animations
+        // NOTE: don't call notifyDataSetChanged()
+
+        //notifyItemRemoved(position);
     }
 }

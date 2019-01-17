@@ -11,6 +11,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.NumberPicker;
 
+import com.amazon.identity.auth.device.AuthError;
+import com.amazon.identity.auth.device.api.authorization.AuthCancellation;
+import com.amazon.identity.auth.device.api.authorization.AuthorizationManager;
+import com.amazon.identity.auth.device.api.authorization.AuthorizeListener;
+import com.amazon.identity.auth.device.api.authorization.AuthorizeRequest;
+import com.amazon.identity.auth.device.api.authorization.AuthorizeResult;
+import com.amazon.identity.auth.device.api.authorization.ProfileScope;
+import com.amazon.identity.auth.device.api.workflow.RequestContext;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.demo.androidpubsub.Res.IDProvider;
 import com.amazonaws.regions.Regions;
@@ -45,6 +53,8 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 
     private Context mContext;
 
+    private RequestContext requestContext;
+
     public Context getContext() {
         return mContext;
     }
@@ -62,6 +72,41 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 
 
         findViewById(R.id.google_sign_in_button).setOnClickListener(this);
+        findViewById(R.id.amazon_sign_in_button).setOnClickListener(this);
+
+
+        //---------------------------------Amazon
+
+        requestContext = RequestContext.create(mContext);
+
+        requestContext.registerListener(new AuthorizeListener() {
+
+            // Authorization was completed successfully.
+            @Override
+            public void onSuccess(AuthorizeResult result) {
+                // Your app is now authorized for the requested scopes
+                System.out.println("Success " + result);
+            }
+
+            // There was an error during the attempt to authorize the
+            //application.
+            @Override
+            public void onError(AuthError ae) {
+                System.out.println("Error " + ae);
+                // Inform the user of the error
+            }
+
+            // Authorization was cancelled before it could be completed.
+            @Override
+            public void onCancel(AuthCancellation cancellation) {
+                System.out.println("Cancel " + cancellation);
+                // Reset the UI to a ready-to-login state
+            }
+
+
+        });
+
+        //---------------------------------Google
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -79,19 +124,26 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.google_sign_in_button:
-                signIn();
+                signIn_Google();
                 break;
             case R.id.amazon_sign_in_button:
-                //do smth
+                signIn_Amazon();
                 break;
-            // ...
         }
 
     }
 
-    private void signIn() {
+    private void signIn_Google() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void signIn_Amazon() {
+
+        AuthorizationManager.authorize(new AuthorizeRequest
+                .Builder(requestContext)
+                .addScopes(ProfileScope.profile(), ProfileScope.postalCode())
+                .build());
     }
 
     @Override
@@ -135,4 +187,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
         setResult(Activity.RESULT_OK,returnIntent);
         finish();
     }
+
+
+
 }
