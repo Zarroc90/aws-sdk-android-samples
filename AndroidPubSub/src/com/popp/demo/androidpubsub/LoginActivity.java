@@ -1,26 +1,27 @@
-package com.amazonaws.demo.androidpubsub;
+package com.popp.demo.androidpubsub;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
-import android.widget.NumberPicker;
 
 import com.amazon.identity.auth.device.AuthError;
+import com.amazon.identity.auth.device.api.Listener;
 import com.amazon.identity.auth.device.api.authorization.AuthCancellation;
 import com.amazon.identity.auth.device.api.authorization.AuthorizationManager;
 import com.amazon.identity.auth.device.api.authorization.AuthorizeListener;
 import com.amazon.identity.auth.device.api.authorization.AuthorizeRequest;
 import com.amazon.identity.auth.device.api.authorization.AuthorizeResult;
 import com.amazon.identity.auth.device.api.authorization.ProfileScope;
+import com.amazon.identity.auth.device.api.authorization.Scope;
 import com.amazon.identity.auth.device.api.workflow.RequestContext;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
-import com.amazonaws.demo.androidpubsub.Res.IDProvider;
+import com.popp.demo.androidpubsub.R;
+import com.popp.demo.androidpubsub.Res.IDProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.iotdata.AWSIotDataClient;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -29,12 +30,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.popp.demo.androidpubsub.Res.Statics;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static android.content.ContentValues.TAG;
-import static com.amazonaws.demo.androidpubsub.Res.Statics.RC_SIGN_IN;
 
 
 public class LoginActivity extends Activity implements View.OnClickListener{
@@ -52,6 +53,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     AWSIotDataClient iotDataClient;
 
     private Context mContext;
+    private LoginActivity loginContext;
 
     private RequestContext requestContext;
 
@@ -69,6 +71,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setContext(getApplicationContext());
+        loginContext=this;
 
 
         findViewById(R.id.google_sign_in_button).setOnClickListener(this);
@@ -86,6 +89,8 @@ public class LoginActivity extends Activity implements View.OnClickListener{
             public void onSuccess(AuthorizeResult result) {
                 // Your app is now authorized for the requested scopes
                 System.out.println("Success " + result);
+                getAmazonToken();
+
             }
 
             // There was an error during the attempt to authorize the
@@ -135,7 +140,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 
     private void signIn_Google() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        startActivityForResult(signInIntent, Statics.RC_SIGN_IN);
     }
 
     private void signIn_Amazon() {
@@ -151,7 +156,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
         super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
+        if (requestCode == Statics.RC_SIGN_IN) {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -188,6 +193,27 @@ public class LoginActivity extends Activity implements View.OnClickListener{
         finish();
     }
 
+    public void getAmazonToken(){
+        AuthorizationManager.getToken(this, new Scope[]{ProfileScope.profile()}, new Listener<AuthorizeResult, AuthError>() {
+            @Override
+            public void onSuccess(AuthorizeResult authorizeResult) {
+                String token = authorizeResult.getAccessToken();
+
+                final Map<String, String> logins = new HashMap<String, String>();
+                logins.put("www.amazon.com", token);
+
+                IDProvider idProvider = new IDProvider(getApplicationContext());
+                idProvider.setLogins(logins);
+                idProvider.setLogincontext(loginContext);
+                idProvider.authenticateWithLogin(mContext);
+            }
+
+            @Override
+            public void onError(AuthError authError) {
+
+            }
+        });
+    }
 
 
 }

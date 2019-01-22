@@ -1,4 +1,4 @@
-package com.amazonaws.demo.androidpubsub.Res;
+package com.popp.demo.androidpubsub.Res;
 
 public class Statics {
     public static final int authRequest = 100;

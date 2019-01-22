@@ -1,12 +1,11 @@
-package com.amazonaws.demo.androidpubsub.Res;
+package com.popp.demo.androidpubsub.Res;
 
 
 import android.content.Context;
 import android.os.AsyncTask;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
-import com.amazonaws.demo.androidpubsub.LoginActivity;
-import com.amazonaws.demo.androidpubsub.PubSubActivity;
+import com.popp.demo.androidpubsub.LoginActivity;
 import com.amazonaws.regions.Regions;
 
 import java.lang.ref.WeakReference;
@@ -23,9 +22,11 @@ public class IDProvider {
     private static final String CUSTOMER_SPECIFIC_ENDPOINT = "acqx6akcdcn9n-ats.iot.eu-central-1.amazonaws.com";
     // Cognito pool ID. For this app, pool needs to be unauthenticated pool with
     // AWS IoT permissions.
-    private static final String COGNITO_POOL_ID = "eu-central-1:4b38968f-863d-4286-a967-8dfd62fb754c";
+    //private static final String COGNITO_POOL_ID = "eu-central-1:4b38968f-863d-4286-a967-8dfd62fb754c";
+    private static final String COGNITO_POOL_ID = "eu-west-1:05a949fa-47b1-44c1-a939-e4960874fa09";
     // Region of AWS IoT
-    private static final Regions MY_REGION = Regions.EU_CENTRAL_1;
+    //private static final Regions MY_REGION = Regions.EU_CENTRAL_1;
+    private static final Regions MY_REGION = Regions.EU_WEST_1;
 
 
 
@@ -89,6 +90,7 @@ public class IDProvider {
         @Override
         protected Void doInBackground(Void... voids) {
             IDProvider idProvider = idProviderReference.get();
+            idProvider.credentialsProvider.clear();
             idProvider.credentialsProvider.setLogins(idProvider.logins);
             idProvider.credentialsProvider.refresh();
             return null;

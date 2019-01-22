@@ -1,4 +1,4 @@
-package com.amazonaws.demo.androidpubsub;
+package com.popp.demo.androidpubsub;
 
 import android.Manifest;
 import android.app.Activity;
@@ -31,7 +31,8 @@ import android.widget.Toast;
 
 import com.amazonaws.auth.AWSCognitoIdentityProvider;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
-import com.amazonaws.demo.androidpubsub.Res.IDProvider;
+import com.popp.demo.androidpubsub.R;
+import com.popp.demo.androidpubsub.Res.IDProvider;
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttClientStatusCallback;
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttManager;
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttNewMessageCallback;
@@ -72,7 +73,7 @@ import java.util.List;
 import java.util.Map;
 
 
-import static com.amazonaws.demo.androidpubsub.Res.Statics.authRequest;
+import static com.popp.demo.androidpubsub.Res.Statics.authRequest;
 
 public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFragment.WiFiPWDialogListener,RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
@@ -83,16 +84,20 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
 
     // IoT endpoint
     // AWS Iot CLI describe-endpoint call returns: XXXXXXXXXX.iot.<region>.amazonaws.com
+    //private static final String CUSTOMER_SPECIFIC_ENDPOINT = "acqx6akcdcn9n-ats.iot.eu-central-1.amazonaws.com";
     private static final String CUSTOMER_SPECIFIC_ENDPOINT = "acqx6akcdcn9n-ats.iot.eu-central-1.amazonaws.com";
     // Cognito pool ID. For this app, pool needs to be unauthenticated pool with
     // AWS IoT permissions.
-    private static final String COGNITO_POOL_ID = "eu-central-1:4b38968f-863d-4286-a967-8dfd62fb754c";
+    //private static final String COGNITO_POOL_ID = "eu-central-1:4b38968f-863d-4286-a967-8dfd62fb754c";
+    private static final String COGNITO_POOL_ID = "eu-west-1:05a949fa-47b1-44c1-a939-e4960874fa09";
     // Name of the AWS IoT policy to attach to a newly created certificate
     private static final String AWS_IOT_POLICY_NAME = "IP_44_Policy";
-    private static final String IDENTITY_POOL_ID = "eu-central-1:4b38968f-863d-4286-a967-8dfd62fb754c";
+    //private static final String IDENTITY_POOL_ID = "eu-central-1:4b38968f-863d-4286-a967-8dfd62fb754c";
+    private static final String IDENTITY_POOL_ID = "eu-west-1:05a949fa-47b1-44c1-a939-e4960874fa09";
 
     // Region of AWS IoT
-    private static final Regions MY_REGION = Regions.EU_CENTRAL_1;
+    //private static final Regions MY_REGION = Regions.EU_CENTRAL_1;
+    private static final Regions MY_REGION = Regions.EU_WEST_1;
     // Filename of KeyStore file on the filesystem
     private static final String KEYSTORE_NAME = "Keystore";
     // Password for the private key in the KeyStore
@@ -253,7 +258,7 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
                         String iotDataEndpoint = CUSTOMER_SPECIFIC_ENDPOINT;
                         iotDataClient.setEndpoint(iotDataEndpoint);*/
                         // IoT Client (for creation of certificate if needed)
-                        Region region = Region.getRegion(MY_REGION);
+                        Region region = Region.getRegion(Regions.EU_CENTRAL_1);
                         mIotAndroidClient = new AWSIotClient(credentialsProvider);
                         iotDataClient = new AWSIotDataClient(credentialsProvider);
                         iotDataClient.setEndpoint(CUSTOMER_SPECIFIC_ENDPOINT);

@@ -1,8 +1,7 @@
-package com.amazonaws.demo.androidpubsub;
+package com.popp.demo.androidpubsub;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,9 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.amazonaws.demo.androidpubsub.Res.IDProvider;
+import com.popp.demo.androidpubsub.R;
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttQos;
 
 import java.util.ArrayList;
