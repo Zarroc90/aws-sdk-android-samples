@@ -3,6 +3,7 @@ package com.popp.demo.androidpubsub;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Debug;
 import android.support.annotation.NonNull;
@@ -44,6 +45,9 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Chal
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
+import com.amazonaws.mobileconnectors.cognitoauth.Auth;
+import com.amazonaws.mobileconnectors.cognitoauth.AuthUserSession;
+import com.amazonaws.mobileconnectors.cognitoauth.handlers.AuthHandler;
 import com.amazonaws.regions.Region;
 import com.amazonaws.services.cognitoidentityprovider.AmazonCognitoIdentityProviderClient;
 import com.amazonaws.services.cognitoidentityprovider.model.ConfirmSignUpRequest;
@@ -82,7 +86,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     //private static final String APP_CLIENT_SECRET ="1b6ugvtiavr0britv54m2epaf2a3g8q6bhi2u8p9j8k5402o9kqc";
     private static final String APP_CLIENT_SECRET ="1k0b37p5p0fcmsnao39b8qvqq5eq1fgipp38j3v2lg6j8e9vlcla";
     private static final String USER_POOL_ID ="eu-west-1_KavBtiUTD";
-
+    private Auth auth;
 
 
     AWSIotDataClient iotDataClient;
@@ -109,6 +113,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
         setContext(getApplicationContext());
         idProvider = new IDProvider(getApplicationContext());
         loginContext=this;
+        initCognito();
 
 
 
@@ -167,14 +172,31 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.google_sign_in_button:
+            /*case R.id.google_sign_in_button:
                 signIn_Google();
                 break;
             case R.id.amazon_sign_in_button:
                 signIn_Amazon();
+                break;*/
+            case R.id.buttonSignin:{
+                this.auth.getSession();
                 break;
+            }
         }
 
+    }
+
+    void initCognito() {
+        //  -- Create an instance of Auth --
+        Auth.Builder builder = new Auth.Builder().setAppClientId(getString(R.string.cognito_client_id))
+                .setAppClientSecret(getString(R.string.cognito_client_secret))
+                .setAppCognitoWebDomain(getString(R.string.cognito_web_domain))
+                .setApplicationContext(getApplicationContext())
+                .setAuthHandler(new callback())
+                .setSignInRedirect(getString(R.string.app_redirect))
+                .setSignOutRedirect(getString(R.string.app_redirect));
+        this.auth = builder.build();
+        appRedirect = Uri.parse(getString(R.string.app_redirect));
     }
 
     private void signIn_Google() {
@@ -256,36 +278,6 @@ public class LoginActivity extends Activity implements View.OnClickListener{
             //-------------------------------------- Sign into User Pool
             final CognitoUserPool userPool = new CognitoUserPool(mContext,USER_POOL_ID,APP_CLIENT_ID,APP_CLIENT_SECRET,MY_REGION);
 
-
-            /*new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    ConfirmSignUpRequest confirmSignUpRequest = new ConfirmSignUpRequest();
-                    confirmSignUpRequest.setUsername(account.getId());
-                    confirmSignUpRequest.setClientId(APP_CLIENT_ID);
-                    confirmSignUpRequest.setConfirmationCode("12345");
-
-                    ConfirmSignUpResult confirmSignUpResult = new ConfirmSignUpResult();
-                    AWSCredentials awsCredentials = new AWSCredentials() {
-                        @Override
-                        public String getAWSAccessKeyId() {
-                            return "AKIAIOQS2XOHICBT5MXA";
-                        }
-
-                        @Override
-                        public String getAWSSecretKey() {
-                            return "bOrqM3xEwLpDiaL0BAcwM4hGLWDIHB9ABiBPO4fn";
-                        }
-                    };
-                    AmazonCognitoIdentityProviderClient amazonCognitoIdentityProviderClient = new AmazonCognitoIdentityProviderClient(awsCredentials);
-                    try{
-                        confirmSignUpResult = amazonCognitoIdentityProviderClient.confirmSignUp(confirmSignUpRequest);
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    System.out.println("confirmSignUpResult: "+confirmSignUpResult.toString());
-                }
-            }).start();*/
 
             CognitoUserAttributes userAttributes = new CognitoUserAttributes();
             userAttributes.addAttribute("email",account.getEmail());
