@@ -17,6 +17,7 @@ public class IDProvider {
     private Context mContext;
     private LoginActivity logincontext;
     private Map<String, String> logins = new HashMap<String, String>();
+    public static String userID;
     private static CognitoCachingCredentialsProvider credentialsProvider;
     private Boolean isReady = Boolean.FALSE;
     private static final String CUSTOMER_SPECIFIC_ENDPOINT = "acqx6akcdcn9n-ats.iot.eu-central-1.amazonaws.com";
@@ -34,6 +35,14 @@ public class IDProvider {
 
     public void setLogins(Map<String, String> logins) {
         this.logins = logins;
+    }
+
+    public void setUserId(String userId) {
+        this.userID = userId;
+    }
+
+    public String getUserId() {
+        return this.userID;
     }
 
     public void setCredentialsProvider(CognitoCachingCredentialsProvider credentialsProvider){
@@ -64,8 +73,9 @@ public class IDProvider {
         this.mContext=context;
     }
 
-    public void authenticateWithLogin (Context context) {
+    public void authenticateWithLogin (Context context,String userId) {
         this.mContext=context;
+        setUserId(userId);
        credentialsProvider = new CognitoCachingCredentialsProvider(
                 context,
                 COGNITO_POOL_ID, // Identity Pool ID

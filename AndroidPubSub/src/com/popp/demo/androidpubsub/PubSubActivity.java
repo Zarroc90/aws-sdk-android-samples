@@ -127,6 +127,7 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
 
 
     String clientId;
+    String userId;
     String mSsid;
     String bSsid;
 
@@ -265,6 +266,7 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
                         iotDataClient.setRegion(region);
                         mIotAndroidClient.setRegion(region);
                         clientId = credentialsProvider.getIdentityId();
+                        userId = idProvider.getUserId();
                         Log.d(LOG_TAG, "clientId = " + clientId);
                         mqttManager = new AWSIotMqttManager("AndroidApp", CUSTOMER_SPECIFIC_ENDPOINT);
                         mqttManager.connect(credentialsProvider, new AWSIotMqttClientStatusCallback() {
@@ -329,8 +331,9 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
                                 mIotAndroidClient.attachPolicy(attachPolicyRequest);
 
                                 listThingsRequest.setAttributeName("user");
-                                listThingsRequest.setAttributeValue(clientId);
+                                listThingsRequest.setAttributeValue(userId);
                                 listThingsResult = mIotAndroidClient.listThings(listThingsRequest);
+
 
                                 System.out.println(listThingsResult.toString());
 
@@ -743,7 +746,7 @@ public class PubSubActivity extends AppCompatActivity implements WiFiPWDialogFra
                 AttributePayload attributePayload = new AttributePayload();
                 attributePayload.addattributesEntry("ProductionNr", "061220180100001");
                 attributePayload.addattributesEntry("model", "ip44");
-                attributePayload.addattributesEntry("user", clientId);
+                attributePayload.addattributesEntry("user", userId);
                 createThingRequest.setAttributePayload(attributePayload);
                 mIotAndroidClient.createThing(createThingRequest);
                 AttachThingPrincipalRequest attachThingPrincipalRequest = new AttachThingPrincipalRequest();

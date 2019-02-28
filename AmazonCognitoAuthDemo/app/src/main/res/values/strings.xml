@@ -2,11 +2,12 @@
     <string name="app_name">Cognito</string>
     <string name="app_main_screen_title">Cognito Auth Demo</string>
 
-    <!-- TODO: Add your Cognito pool details here -->
-    <string name="cognito_web_domain">foo.auth.us-east-1.amazoncognito.com</string>
-    <string name="cognito_client_id">YOUR_COGNITO_APP_CLIENT_ID</string>
-    <string name="cognito_client_secret">YOUR_COGNITO_APP_CLIENT_SECRET</string>
-    <string name="app_redirect">demoapp://www.loginactivity.com/mainactivity</string>
+    <!-- TODO: Add your Cognito pool details here
+    https://popp-test.auth.eu-west-1.amazoncognito.com/login?response_type=code&client_id=dgpm1mq6bvg607umsfngitn19&redirect_uri=demoapp://www.loginactivity.com/mainactivity-->
+    <string name="cognito_web_domain">popp-test.auth.eu-west-1.amazoncognito.com</string>
+    <string name="cognito_client_id">dgpm1mq6bvg607umsfngitn19</string>
+    <string name="cognito_client_secret">1k0b37p5p0fcmsnao39b8qvqq5eq1fgipp38j3v2lg6j8e9vlcla</string>
+    <string name="app_redirect">demoapp://demo.cognitoauth.com/signin</string>
 
     <!-- Values for this demo App -->
     <string name="app_access_token">access_token</string>

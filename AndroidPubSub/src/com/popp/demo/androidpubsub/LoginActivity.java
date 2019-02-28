@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -19,8 +20,34 @@ import com.amazon.identity.auth.device.api.authorization.AuthorizeResult;
 import com.amazon.identity.auth.device.api.authorization.ProfileScope;
 import com.amazon.identity.auth.device.api.authorization.Scope;
 import com.amazon.identity.auth.device.api.workflow.RequestContext;
+
+import com.amazonaws.ClientConfiguration;
+import com.amazonaws.auth.AWSCognitoIdentityProvider;
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.AnonymousAWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
-import com.popp.demo.androidpubsub.R;
+
+import com.amazonaws.auth.CognitoCredentialsProvider;
+import com.amazonaws.auth.IdentityChangedListener;
+import com.amazonaws.auth.PropertiesCredentials;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationDetails;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
+import com.amazonaws.regions.Region;
+import com.amazonaws.services.cognitoidentityprovider.AmazonCognitoIdentityProviderClient;
+import com.amazonaws.services.cognitoidentityprovider.model.ConfirmSignUpRequest;
+import com.amazonaws.services.cognitoidentityprovider.model.ConfirmSignUpResult;
 import com.popp.demo.androidpubsub.Res.IDProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.iotdata.AWSIotDataClient;
@@ -36,6 +63,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static android.content.ContentValues.TAG;
+import static com.amazonaws.auth.policy.Principal.WebIdentityProviders.Amazon;
 
 
 public class LoginActivity extends Activity implements View.OnClickListener{
@@ -48,7 +76,14 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     // AWS IoT permissions.
     private static final String COGNITO_POOL_ID = "eu-central-1:4b38968f-863d-4286-a967-8dfd62fb754c";
     // Region of AWS IoT
-    private static final Regions MY_REGION = Regions.EU_CENTRAL_1;
+    private static final Regions MY_REGION = Regions.EU_WEST_1;
+    //private static final String APP_CLIENT_ID ="1fjetpf94pgk1lfkrpca5ulqdr";
+    private static final String APP_CLIENT_ID ="dgpm1mq6bvg607umsfngitn19";
+    //private static final String APP_CLIENT_SECRET ="1b6ugvtiavr0britv54m2epaf2a3g8q6bhi2u8p9j8k5402o9kqc";
+    private static final String APP_CLIENT_SECRET ="1k0b37p5p0fcmsnao39b8qvqq5eq1fgipp38j3v2lg6j8e9vlcla";
+    private static final String USER_POOL_ID ="eu-west-1_KavBtiUTD";
+
+
 
     AWSIotDataClient iotDataClient;
 
@@ -56,6 +91,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     private LoginActivity loginContext;
 
     private RequestContext requestContext;
+    public IDProvider idProvider ;
 
     public Context getContext() {
         return mContext;
@@ -71,7 +107,10 @@ public class LoginActivity extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setContext(getApplicationContext());
+        idProvider = new IDProvider(getApplicationContext());
         loginContext=this;
+
+
 
 
         findViewById(R.id.google_sign_in_button).setOnClickListener(this);
@@ -164,18 +203,137 @@ public class LoginActivity extends Activity implements View.OnClickListener{
         }
     }
 
-    private void handleSignInResult(@NonNull Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            String token = account.getIdToken();
+    AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
+
+        @Override
+        public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
+
+            System.out.println("Sign-In Success");
 
             final Map<String, String> logins = new HashMap<String, String>();
-            logins.put("accounts.google.com", token);
+            //logins.put("accounts.google.com", token);
+            logins.put("cognito-idp.eu-west-1.amazonaws.com/eu-west-1_KavBtiUTD", userSession.getIdToken().getJWTToken());
+
+            idProvider.setLogins(logins);
+            idProvider.authenticateWithLogin(mContext,userSession.getUsername());
+        }
+
+        @Override
+        public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation, String userId) {
+            // The API needs user sign-in credentials to continue
+            AuthenticationDetails authenticationDetails = new AuthenticationDetails(userId, "pAssw0rd...", null);
+
+            // Pass the user sign-in credentials to the continuation
+            authenticationContinuation.setAuthenticationDetails(authenticationDetails);
+
+            // Allow the sign-in to continue
+            authenticationContinuation.continueTask();
+        }
+
+        @Override
+        public void getMFACode(MultiFactorAuthenticationContinuation multiFactorAuthenticationContinuation) {
+
+        }
+
+        @Override
+        public void authenticationChallenge(ChallengeContinuation continuation) {
+
+        }
+
+        @Override
+        public void onFailure(Exception exception) {
+            // Sign-in failed, check exception for the cause
+            System.out.println("Sign-In Failure: "+exception);
+        }
+    };
+
+
+    private void handleSignInResult(@NonNull Task<GoogleSignInAccount> completedTask) {
+        try {
+            final GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            String token = account.getIdToken();
+
+            //-------------------------------------- Sign into User Pool
+            final CognitoUserPool userPool = new CognitoUserPool(mContext,USER_POOL_ID,APP_CLIENT_ID,APP_CLIENT_SECRET,MY_REGION);
+
+
+            /*new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ConfirmSignUpRequest confirmSignUpRequest = new ConfirmSignUpRequest();
+                    confirmSignUpRequest.setUsername(account.getId());
+                    confirmSignUpRequest.setClientId(APP_CLIENT_ID);
+                    confirmSignUpRequest.setConfirmationCode("12345");
+
+                    ConfirmSignUpResult confirmSignUpResult = new ConfirmSignUpResult();
+                    AWSCredentials awsCredentials = new AWSCredentials() {
+                        @Override
+                        public String getAWSAccessKeyId() {
+                            return "AKIAIOQS2XOHICBT5MXA";
+                        }
+
+                        @Override
+                        public String getAWSSecretKey() {
+                            return "bOrqM3xEwLpDiaL0BAcwM4hGLWDIHB9ABiBPO4fn";
+                        }
+                    };
+                    AmazonCognitoIdentityProviderClient amazonCognitoIdentityProviderClient = new AmazonCognitoIdentityProviderClient(awsCredentials);
+                    try{
+                        confirmSignUpResult = amazonCognitoIdentityProviderClient.confirmSignUp(confirmSignUpRequest);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    System.out.println("confirmSignUpResult: "+confirmSignUpResult.toString());
+                }
+            }).start();*/
+
+            CognitoUserAttributes userAttributes = new CognitoUserAttributes();
+            userAttributes.addAttribute("email",account.getEmail());
+            userAttributes.addAttribute("given_name",account.getGivenName());
+            userAttributes.addAttribute("family_name",account.getFamilyName());
+
+            SignUpHandler signUpCallback = new SignUpHandler() {
+                @Override
+                public void onSuccess(CognitoUser cognitoUser, boolean signUpConfirmationState, CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
+                    System.out.println("Sign-Up Success");
+                    System.out.println("user: "+cognitoUser);
+                    System.out.println("Confirmed: "+signUpConfirmationState);
+                    System.out.println("Delivery: "+cognitoUserCodeDeliveryDetails);
+
+                    // Sign in the user
+                    cognitoUser.getSessionInBackground(authenticationHandler);
+                }
+
+                @Override
+                public void onFailure(Exception exception) {
+                    System.out.println("Sign-Up Failed");
+                    System.out.println("exception: "+exception);
+                    if (exception.toString().contains("UsernameExistsException")){
+                        CognitoUser user = userPool.getUser(account.getId());
+                        user.getSessionInBackground(authenticationHandler);
+                    }
+                }
+            };
+
+            userPool.signUpInBackground(account.getId(),"pAssw0rd...",userAttributes,null,signUpCallback);
+
+
+
+
+            //----------------------------------------------------------------
+            /*final Map<String, String> logins = new HashMap<String, String>();
+            //logins.put("accounts.google.com", token);
+            logins.put("cognito-idp.eu-west-1.amazonaws.com/eu-west-1_KavBtiUTD", account.getIdToken());
+
 
             IDProvider idProvider = new IDProvider(getApplicationContext());
             idProvider.setLogins(logins);
             idProvider.setLogincontext(this);
-            idProvider.authenticateWithLogin(mContext);
+            idProvider.authenticateWithLogin(mContext);*/
+
+
+            //idProvider.setUserId(account.getId());
+            idProvider.setLogincontext(this);
 
 
         } catch (ApiException e) {
@@ -202,10 +360,10 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                 final Map<String, String> logins = new HashMap<String, String>();
                 logins.put("www.amazon.com", token);
 
-                IDProvider idProvider = new IDProvider(getApplicationContext());
+                //IDProvider idProvider = new IDProvider(getApplicationContext());
                 idProvider.setLogins(logins);
                 idProvider.setLogincontext(loginContext);
-                idProvider.authenticateWithLogin(mContext);
+                idProvider.authenticateWithLogin(mContext,"User");
             }
 
             @Override

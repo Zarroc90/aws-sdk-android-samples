@@ -4,4 +4,6 @@
     <color name="black">#000000</color>
     <color name="grey">#444444</color>
     <color name="bg_row_background">#fa315b</color>
+    <color name="button_default">#8BC34A</color>
+    <color name="button_pressed">#598530</color>
 </resources>
